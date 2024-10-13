@@ -17,7 +17,7 @@ class Role
      */
     public function handle(Request $request, Closure $next, $role)
     {
-        if (auth()->check() && Auth::user()->$role) {
+        if (auth()->user()->role == $role ) {
             return $next($request);
         }
 

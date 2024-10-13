@@ -9,32 +9,35 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{  asset('admin/img/favicon.ico')}}" rel="icon">
+    <link href="{{ asset('admin/img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ asset('admin/lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('admin/lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('admin/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('admin/css/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
 
 </head>
 
 <body>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
     </div>
     <!-- Spinner End -->
@@ -45,23 +48,154 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
                 <a href="{{ route('halaman.index') }}" class="navbar-brand">
-                    <img class="img-fluid" src="{{  asset('admin/img/logo.png')}}" alt="Logo">
+                    <img class="img-fluid" src="{{ asset('admin/img/logo.png') }}" alt="Logo">
                 </a>
-                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="{{ route('halaman.index') }}" class="nav-item nav-link {{ \Route::is('halaman.index') ? 'active' : '' }}">Home</a>
-                        <a href="{{ route('halaman.about') }}" class="nav-item nav-link {{ \Route::is('halaman.about') ? 'active' : '' }}">About</a>
-                        <a href="{{ route('halaman.paket') }}" class="nav-item nav-link {{ \Route::is('halaman.paket') ? 'active' : '' }}">Paket</a>
+                        <a href="{{ route('halaman.index') }}"
+                            class="nav-item nav-link {{ \Route::is('halaman.index') ? 'active' : '' }}">Home</a>
+                        <a href="{{ route('halaman.about') }}"
+                            class="nav-item nav-link {{ \Route::is('halaman.about') ? 'active' : '' }}">About</a>
+                        <a href="{{ route('halaman.paket') }}"
+                            class="nav-item nav-link {{ \Route::is('halaman.paket') ? 'active' : '' }}">Paket</a>
                     </div>
                     <div class="border-start ps-4 d-none d-lg-block">
-                        <a href="{{ route('login') }}" type="button" class="btn btn-info"><i class="bi bi-box-arrow-in-right"></i></a>
-                        <a href="{{ route('register') }}" type="button" class="btn btn-info"><i class="bi bi-person"></i></a>
+                        <a href="{{ route('login') }}" type="button" class="btn btn-info"><i
+                                class="bi bi-box-arrow-in-right"></i></a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#tambah">
+                            <i class="bi bi-people"></i>
+                        </button>
                     </div>
                 </div>
             </nav>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Pelanggan</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('register') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3 row">
+                            <label for="name" class="col-sm-2 col-form-label"> Nama</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="email" class="col-sm-2 col-form-label"> Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}">
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="password" class="col-sm-2 col-form-label"> Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password">
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="password_confirmation" class="col-sm-2 col-form-label">Konfirmasi Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="tempat_lahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}">
+                                @error('tempat_lahir')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                                @error('tanggal_lahir')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-10">
+                                <textarea name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror" cols="30" rows="3">{{ old('alamat') }}</textarea>
+                                @error('alamat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="no_hp" class="col-sm-2 col-form-label">Nomor Hp</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" id="no_hp" value="{{ old('no_hp') }}">
+                                @error('no_hp')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="img" class="col-sm-2 col-form-label">Foto</label>
+                            <div class="col-sm-10">
+                                <input class="form-control @error('img') is-invalid @enderror" type="file" name="img" id="formFile">
+                                @error('img')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                            <button type="submit" class="btn btn-primary">Kirim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Navbar End -->
@@ -226,14 +360,19 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-primary mb-4">Our Office</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Street, New York, USA
+                    </p>
                     <p class="mb-2"><i class="fa fa-phone-alt text-primary me-3"></i>+012 345 67890</p>
                     <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
                     <div class="d-flex pt-3">
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -257,8 +396,10 @@
                     <h4 class="text-primary mb-4">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
                     <div class="position-relative w-100">
-                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
+                            placeholder="Your email">
+                        <button type="button"
+                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>
             </div>
@@ -276,7 +417,8 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="fw-medium" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="fw-medium" href="https://themewagon.com">ThemeWagon</a>
+                    Designed By <a class="fw-medium" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a
+                        class="fw-medium" href="https://themewagon.com">ThemeWagon</a>
                 </div>
             </div>
         </div>
@@ -285,19 +427,20 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('admin/lib/wow/wow.min.js')}}"></script>
-    <script src="{{ asset('admin/lib/easing/easing.min.js')}}"></script>
-    <script src="{{ asset('admin/lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{ asset('admin/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('admin/lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('admin/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('admin/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('admin/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('admin/js/main.js')}}"></script>
+    <script src="{{ asset('admin/js/main.js') }}"></script>
 </body>
 
 </html>

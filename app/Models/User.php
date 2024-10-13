@@ -13,22 +13,6 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
 
-    const PENGGUNA = 0;
-    const ADMIN_UTAMA = 1;
-    const KASIR = 2;
-
-    public function isAdminUtama() {
-        return $this->role === self::ADMIN_UTAMA;
-    }
-
-    public function kasir() {
-        return $this->role === self::KASIR;
-    }
-
-    public function pengguna() {
-        return $this->role === self::PENGGUNA;
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -38,6 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'alamat',
+        'no_hp',
+        'img'
     ];
 
     /**

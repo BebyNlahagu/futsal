@@ -3,6 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\LapanganController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,13 +32,21 @@ Route::get('/halaman/paket',[LandingPageController::class,'paket'])->name('halam
 Auth::routes();
 
 Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::get('/admin/index',[HomeController::class,'index'])->name('admin.index');
-});
-Route::middleware(['auth', 'role:2'])->group(function () {
-    Route::get('/kasir/index',[HomeController::class,'index'])->name('kasir.index');
+    Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
+
+    Route::resource('/admin/lapangan',LapanganController::class);
+    Route::resource('/admin/member',MemberController::class);
 });
 
+// Rute untuk kasir
+Route::middleware(['auth', 'role:2'])->group(function () {
+    Route::get('/kasir/index', [HomeController::class, 'index'])->name('kasir.index');
+
+    Route::resource('/kasir/transaksi',TransaksiController::class);
+});
+
+// Rute untuk user biasa
 Route::middleware(['auth', 'role:0'])->group(function () {
-    Route::get('/user/index', [HomeController::class,'index'])->name('user.index');
+    Route::get('/user/index', [HomeController::class, 'index'])->name('user.index');
 });
 
