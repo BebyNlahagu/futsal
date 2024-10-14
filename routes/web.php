@@ -7,6 +7,7 @@ use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserLoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,5 +49,11 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 // Rute untuk user biasa
 Route::middleware(['auth', 'role:0'])->group(function () {
     Route::get('/user/index', [HomeController::class, 'index'])->name('user.index');
+
+    Route::get('/user/index',[UserLoginController::class,'index'])->name('user.index');
+    Route::get('/user/about',[UserLoginController::class,'about'])->name('user.about');
+    Route::get('/user/paket',[UserLoginController::class,'paket'])->name('user.paket');
+
+    Route::post('/user/transaksi',[TransaksiController::class,'store'])->name('user.transaksi');
 });
 

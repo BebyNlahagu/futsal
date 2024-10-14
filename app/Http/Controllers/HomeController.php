@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Cek apakah pengguna terautentikasi
         if (auth()->check()) {
             // Dapatkan role pengguna
             $role = Auth::user()->role;

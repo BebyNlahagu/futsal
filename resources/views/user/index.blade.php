@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.home')
 
 @section('title','Halaman Home')
 @section('gambar')

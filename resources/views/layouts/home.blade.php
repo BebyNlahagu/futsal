@@ -47,7 +47,7 @@
     <div class="container-fluid bg-white sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
-                <a href="{{ route('halaman.index') }}" class="navbar-brand">
+                <a href="{{ route('user.index') }}" class="navbar-brand">
                     <img class="img-fluid" src="{{ asset('admin/img/logo.png') }}" alt="Logo">
                 </a>
                 <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
@@ -56,20 +56,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="{{ route('halaman.index') }}"
-                            class="nav-item nav-link {{ \Route::is('halaman.index') ? 'active' : '' }}">Home</a>
-                        <a href="{{ route('halaman.about') }}"
-                            class="nav-item nav-link {{ \Route::is('halaman.about') ? 'active' : '' }}">About</a>
-                        <a href="{{ route('halaman.paket') }}"
-                            class="nav-item nav-link {{ \Route::is('halaman.paket') ? 'active' : '' }}">Paket</a>
+                        <a href="{{ route('user.index') }}"
+                            class="nav-item nav-link {{ \Route::is('user.index') ? 'active' : '' }}">Home</a>
+                        <a href="{{ route('user.about') }}"
+                            class="nav-item nav-link {{ \Route::is('user.about') ? 'active' : '' }}">About</a>
+                        <a href="{{ route('user.paket') }}"
+                            class="nav-item nav-link {{ \Route::is('user.paket') ? 'active' : '' }}">Paket</a>
                     </div>
                     <div class="border-start ps-4 d-none d-lg-block">
-                        <a href="{{ route('login') }}" type="button" class="btn btn-info"><i
-                                class="bi bi-box-arrow-in-right"></i></a>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#tambah">
-                            <i class="bi bi-people"></i>
-                        </button>
+                        <a class="dropdown-item"href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i></a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </nav>
@@ -81,119 +79,9 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Pelanggan</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Keluar</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('register') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3 row">
-                            <label for="name" class="col-sm-2 col-form-label"> Nama</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="email" class="col-sm-2 col-form-label"> Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="password" class="col-sm-2 col-form-label"> Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password">
-                                @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="password_confirmation" class="col-sm-2 col-form-label">Konfirmasi Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="tempat_lahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}">
-                                @error('tempat_lahir')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
-                                @error('tanggal_lahir')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
-                            <div class="col-sm-10">
-                                <textarea name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror" cols="30" rows="3">{{ old('alamat') }}</textarea>
-                                @error('alamat')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="no_hp" class="col-sm-2 col-form-label">Nomor Hp</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" id="no_hp" value="{{ old('no_hp') }}">
-                                @error('no_hp')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="img" class="col-sm-2 col-form-label">Foto</label>
-                            <div class="col-sm-10">
-                                <input class="form-control @error('img') is-invalid @enderror" type="file" name="img" id="formFile">
-                                @error('img')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
