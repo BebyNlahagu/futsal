@@ -20,4 +20,9 @@ class UserLoginController extends Controller
     {
         return view('user.paket');
     }
+
+    public function transaksi()
+    {
+        return view('user.trasaksi');
+    }
 }

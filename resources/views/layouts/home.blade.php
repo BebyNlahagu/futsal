@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ asset('admin/img/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('masuk/futsal.png') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
                 <a href="{{ route('user.index') }}" class="navbar-brand">
-                    <img class="img-fluid" src="{{ asset('admin/img/logo.png') }}" alt="Logo">
+                    <img class="img-fluid" src="{{ asset('masuk/futsal.png') }}" alt="Logo">
                 </a>
                 <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
@@ -62,6 +62,8 @@
                             class="nav-item nav-link {{ \Route::is('user.about') ? 'active' : '' }}">About</a>
                         <a href="{{ route('user.paket') }}"
                             class="nav-item nav-link {{ \Route::is('user.paket') ? 'active' : '' }}">Paket</a>
+                        <a href="{{ route('user.trasaksi') }}"
+                            class="nav-item nav-link {{ \Route::is('user.transaksi') ? 'active' : '' }}">Transaksi</a>
                     </div>
                     <div class="border-start ps-4 d-none d-lg-block">
                         <a class="dropdown-item"href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i></a>
@@ -247,48 +249,34 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Our Office</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Street, New York, USA
+                    <h4 class="text-primary mb-4">Alamat</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Jl. Setia Budi Ps. II, Tj. Sari, Kec. Medan Selayang, Kota Medan, Sumatera Utara 20132
                     </p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-primary me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary me-3"></i>+62 821-3499-7287</p>
+                    <p class="mb-2"><i class="bi bi-instagram text-primary me-3"></i>@awsoccerpark</p>
                     <div class="d-flex pt-3">
                         <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
-                                class="fab fa-twitter"></i></a>
+                                class="fab fa-instagram"></i></a>
                         <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
                                 class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
-                                class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
-                                class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2" href="https://wa.me/6282134997287"><i
+                                class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
+                    <h4 class="text-primary mb-4">Link</h4>
+                    <a class="btn btn-link" href="">Home</a>
+                    <a class="btn btn-link" href="">About</a>
+                    <a class="btn btn-link" href="">Paket</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Business Hours</h4>
-                    <p class="mb-1">Monday - Friday</p>
-                    <h6 class="text-light">09:00 am - 07:00 pm</h6>
-                    <p class="mb-1">Saturday</p>
-                    <h6 class="text-light">09:00 am - 12:00 pm</h6>
-                    <p class="mb-1">Sunday</p>
-                    <h6 class="text-light">Closed</h6>
+                    <h4 class="text-primary mb-4">Jam Buka</h4>
+                    <p class="mb-1">Setiap hari</p>
+                    <h6 class="text-light">06:00 wib - 23:00 pm</h6>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative w-100">
-                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
-                            placeholder="Your email">
-                        <button type="button"
-                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
+                    <h4 class="text-primary mb-4">Hubungi Kami</h4>
+                    <p>Jika ada pertanyaan lainnya hubungi kami</p>
                 </div>
             </div>
         </div>
@@ -301,12 +289,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="fw-medium" href="#">Your Site Name</a>, All Right Reserved.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="fw-medium" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a
-                        class="fw-medium" href="https://themewagon.com">ThemeWagon</a>
+                    &copy; <a class="fw-medium" href="#">Aw Soccer park</a>, All Right Reserved.
                 </div>
             </div>
         </div>

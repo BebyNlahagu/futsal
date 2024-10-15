@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -46,5 +47,19 @@ class RegisterController extends Controller
             'img' => $data['img'],
             'role' => 0, // Atur role default menjadi 0
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        // Atur pengalihan berdasarkan role setelah registrasi
+        if ($user->role == 1) {
+            return redirect()->route('admin.index');
+        } elseif ($user->role == 2) {
+            return redirect()->route('kasir.index');
+        } elseif ($user->role == 0) {
+            return redirect()->route('user.index');
+        }
+
+        return redirect()->route('halaman.index');
     }
 }

@@ -54,6 +54,8 @@ Route::middleware(['auth', 'role:0'])->group(function () {
     Route::get('/user/about',[UserLoginController::class,'about'])->name('user.about');
     Route::get('/user/paket',[UserLoginController::class,'paket'])->name('user.paket');
 
+
+    Route::get('/user/transaksi',[UserLoginController::class,'transaksi'])->name('user.trasaksi');
     Route::post('/user/transaksi',[TransaksiController::class,'store'])->name('user.transaksi');
 });
 
