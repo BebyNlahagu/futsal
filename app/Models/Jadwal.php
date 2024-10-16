@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jam extends Model
+class Jadwal extends Model
 {
     use HasFactory;
 
-    protected $table = 'jams';
+    protected $table = 'jadwals';
     protected $guarded = [];
 
     public function lapangan()

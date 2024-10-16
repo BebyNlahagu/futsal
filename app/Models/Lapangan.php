@@ -12,5 +12,8 @@ class Lapangan extends Model
     protected $table = 'lapangans';
     protected $guarded = [];
 
-    
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class,'lapangan_id');
+    }
 }

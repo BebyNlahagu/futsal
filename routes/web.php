@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KasirKontroller;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'role:1'])->group(function () {
     ]);
     Route::resource('/admin/member',MemberController::class);
     Route::resource('/admin/casir',KasirKontroller::class);
+    Route::resource('/admin/jadwal',JadwalController::class);
 });
 
 // Rute untuk kasir
