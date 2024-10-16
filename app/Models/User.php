@@ -30,6 +30,11 @@ class User extends Authenticatable
         'img'
     ];
 
+    public function bayars()
+    {
+        return $this->hasMany(Bayar::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

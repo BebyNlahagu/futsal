@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bayar;
+use App\Models\Jadwal;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserLoginController extends Controller
@@ -18,11 +21,15 @@ class UserLoginController extends Controller
 
     public function paket()
     {
-        return view('user.paket');
+        $jadwal = Jadwal::all();
+        return view('user.paket',compact('jadwal'));
     }
 
     public function transaksi()
     {
-        return view('user.trasaksi');
+        $jadwals = Jadwal::all();
+        $users = User::where('role', 0)->get();
+        $bayars = Bayar::with(['jadwal', 'user'])->get();
+        return view('user.trasaksi',compact('bayars','jadwals','users'));
     }
 }

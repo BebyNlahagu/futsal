@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -18,6 +19,7 @@ class LandingPageController extends Controller
 
     public function paket()
     {
-        return view('halaman.paket');
+        $jadwal = Jadwal::all();
+        return view('halaman.paket',compact('jadwal'));
     }
 }

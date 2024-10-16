@@ -26,8 +26,8 @@
                 <div class="sidebar-brand-text mx-3">Admin</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item {{ \Route::is('admin.index') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.index') }}">
+            <li class="nav-item {{ \Route::is('kasir.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('kasir.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -35,10 +35,10 @@
             <div class="sidebar-heading">
                 Features
             </div>
-            <li class="nav-item">
-                <a class="nav-link">
+            <li class="nav-item {{ \Route::is('transaksi.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('transaksi.index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Trasaksi</span>
+                    <span>Transaksi</span>
                 </a>
             </li>
         </ul>

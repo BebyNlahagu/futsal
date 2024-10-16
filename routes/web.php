@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BayarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KasirKontroller;
@@ -53,7 +54,11 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('/kasir/index', [HomeController::class, 'index'])->name('kasir.index');
 
-    Route::resource('/kasir/transaksi',TransaksiController::class);
+    Route::resource('/kasir/transaksi',BayarController::class);
+
+
+    Route::patch('/kasir/transaksi/{id}/update-status', [BayarController::class, 'updateStatus'])->name('bayars.updateStatus');
+
 });
 
 // Rute untuk user biasa
@@ -66,6 +71,6 @@ Route::middleware(['auth', 'role:0'])->group(function () {
 
 
     Route::get('/user/transaksi',[UserLoginController::class,'transaksi'])->name('user.trasaksi');
-    Route::post('/user/transaksi',[TransaksiController::class,'store'])->name('user.transaksi');
+    Route::post('/user/transaksi',[BayarController::class,'store'])->name('user.transaksi');
 });
 

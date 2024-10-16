@@ -62,7 +62,7 @@
                         <a href="{{ route('halaman.about') }}"
                             class="nav-item nav-link {{ \Route::is('halaman.about') ? 'active' : '' }}">About</a>
                         <a href="{{ route('halaman.paket') }}"
-                            class="nav-item nav-link {{ \Route::is('halaman.paket') ? 'active' : '' }}">Paket</a>
+                            class="nav-item nav-link {{ \Route::is('halaman.paket') ? 'active' : '' }}">Harga</a>
                     </div>
                     <div class="border-start ps-4 d-none d-lg-block">
                         <a href="{{ route('login') }}" type="button" class="btn btn-info"><i class="bi bi-box-arrow-in-right"></i></a>
