@@ -55,7 +55,7 @@ class RegisterController extends Controller
         if ($user->role == 1) {
             return redirect()->route('admin.index');
         } elseif ($user->role == 2) {
-            return redirect()->route('kasir.index');
+            return redirect()->route('casir.index');
         } elseif ($user->role == 0) {
             return redirect()->route('user.index');
         }

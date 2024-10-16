@@ -20,11 +20,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role')->default();
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->longText('alamat');
-            $table->string('no_hp');
-            $table->string('img');
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->longText('alamat')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('img')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

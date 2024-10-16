@@ -21,6 +21,6 @@ class Role
             return $next($request);
         }
 
-        return redirect()->back();
+        return redirect()->route('halaman.index');
     }
 }

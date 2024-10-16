@@ -1,2 +1,2 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 

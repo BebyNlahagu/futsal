@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KasirKontroller;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\MemberController;
@@ -35,8 +36,15 @@ Auth::routes();
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
 
-    Route::resource('/admin/lapangan',LapanganController::class);
+    Route::resource('/admin/lapangan',LapanganController::class)->names([
+        'index' => 'admin.lapangan.index',
+        'store' => 'admin.lapangan.store',
+        'edit' => 'admin.lapangan.edit',
+        'update' => 'admin.lapangan.update',
+        'destroy' => 'admin.lapangan.destroy'
+    ]);
     Route::resource('/admin/member',MemberController::class);
+    Route::resource('/admin/casir',KasirKontroller::class);
 });
 
 // Rute untuk kasir
