@@ -35,22 +35,10 @@
             <div class="sidebar-heading">
                 Features
             </div>
-            <li class="nav-item {{ \Route::is('admin.lapangan.index') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.lapangan.index') }}">
+            <li class="nav-item">
+                <a class="nav-link">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Lapangan</span>
-                </a>
-            </li>
-            <li class="nav-item {{ \Route::is('jadwal.index') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('jadwal.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Jam Operasional</span>
-                </a>
-            </li>
-            <li class="nav-item {{ \Route::is('casir.index') ? 'Active' : '' }}">
-                <a class="nav-link" href="{{ route('casir.index') }}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Manajemen Pengguna</span>
+                    <span>Trasaksi</span>
                 </a>
             </li>
         </ul>
