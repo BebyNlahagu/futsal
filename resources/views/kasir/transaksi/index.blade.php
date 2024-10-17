@@ -36,6 +36,7 @@
                                 <th>Bayar</th>
                                 <th>Sisa</th>
                                 <th>Status</th>
+                                <th>Lihat Bukti</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -53,23 +54,32 @@
                                     <td>{{ number_format($bayar->sisa, 0, ',', '.') }}</td>
                                     <td>{{ $bayar->status }}</td>
                                     <td>
+                                        @if ($bayar->bukti_pembayaran)
+                                            <a href="{{ asset('storage/' . $bayar->bukti_pembayaran) }}"
+                                                target="_blank">Lihat Bukti</a>
+                                        @else
+                                            <span class="text-danger">Belum ada bukti</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         @if ($bayar->status !== 'lunas')
                                             <form action="{{ route('bayars.updateStatus', $bayar->id) }}" method="POST"
                                                 style="display:inline;">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="btn btn-success btn-sm">Konfirmasi
-                                                    Lunas</button>
+                                                <button type="submit" class="btn btn-success btn-sm">Konfirmasi Lunas</button>
                                             </form>
                                         @endif
-                                        <a href="{{ route('transaksi.edit', $bayar->id) }}"
-                                            class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ route('transaksi.destroy', $bayar->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
+                                        <div class="d-flex ms-2">
+                                            <a href="{{ route('transaksi.edit', $bayar->id) }}" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                data-target="#edit{{ $bayar->id }}"><i class="fa fa-edit"></i></a>
+                                            <form action="{{ route('transaksi.destroy', $bayar->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -103,8 +113,9 @@
                             <select name="jadwal_id" id="jadwal_id" class="form-select" required>
                                 <option value="">Pilih Jadwal</option>
                                 @foreach ($jadwals as $jadwal)
-                                    <option value="{{ $jadwal->id }}" data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
-                                        data-harga-akhir-pekan="{{ $jadwal->harga_akhir_pekan }}">
+                                    <option value="{{ $jadwal->id }}"
+                                        data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
+                                        data-harga-akhir-pekan="{{ $jadwal->harga_hari_pekan }}">
                                         {{ $jadwal->jam }}
                                     </option>
                                 @endforeach
@@ -151,6 +162,90 @@
         </div>
     </div>
 
+    <!--modal Edit-->
+    @foreach ($bayars as $bayar)
+    <div class="modal fade" id="edit{{ $bayar->id }}" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="updateJadwalModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="updateJadwalModalLabel">Update Jadwal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ route('transaksi.update', $bayar->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label for="tanggal_main_update" class="form-label">Tanggal Main</label>
+                    <input type="date" name="tanggal_main" id="tanggal_main_update" class="form-control"
+                        value="{{ $bayar->tanggal_main }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jadwal_id_update" class="form-label">Jadwal</label>
+                    <select name="jadwal_id" id="jadwal_id_update" class="form-select" required>
+                        <option value="">Pilih Jadwal</option>
+                        @foreach ($jadwals as $jadwal)
+                            <option value="{{ $jadwal->id }}"
+                                data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
+                                data-harga-akhir-pekan="{{ $jadwal->harga_hari_pekan }}"
+                                {{ $bayar->jadwal_id == $jadwal->id ? 'selected' : '' }}>
+                                {{ $jadwal->jam }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="user_id_update" class="form-label">User</label>
+                    <select name="user_id" id="user_id_update" class="form-select" required>
+                        <option value="">Pilih User</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}"
+                                {{ $bayar->user_id == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="durasi_update" class="form-label">Durasi (Jam)</label>
+                    <input type="number" name="durasi" id="durasi_update" class="form-control" min="1"
+                        value="{{ $bayar->durasi }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="total_harga_update" class="form-label">Total Harga</label>
+                    <input type="text" id="total_harga_update" class="form-control" value="{{ $bayar->total_harga }}"
+                        readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dp_update" class="form-label">Uang Muka (DP)</label>
+                    <input type="text" id="dp_update" class="form-control" value="{{ $bayar->dp }}"
+                        readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="bayar_update" class="form-label">Jumlah Bayar</label>
+                    <input type="number" name="bayar" id="bayar_update" class="form-control" min="0"
+                        value="{{ $bayar->bayar }}" required>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary">Update Pembayaran</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+    @endforeach
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const jadwalSelect = document.getElementById('jadwal_id');
@@ -161,6 +256,13 @@
 
             function calculateTotal() {
                 const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
+                if (!selectedOption.value || !tanggalInput.value || !durasiInput.value) {
+                    // Reset jika salah satu input tidak valid
+                    totalHargaInput.value = '';
+                    dpInput.value = '';
+                    return;
+                }
+
                 const hargaBiasa = parseInt(selectedOption.getAttribute('data-harga-biasa'));
                 const hargaAkhirPekan = parseInt(selectedOption.getAttribute('data-harga-akhir-pekan'));
                 const durasi = parseInt(durasiInput.value);

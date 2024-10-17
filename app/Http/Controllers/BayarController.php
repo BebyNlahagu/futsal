@@ -26,7 +26,17 @@ class BayarController extends Controller
             'tanggal_main' => 'required|date',
             'durasi' => 'required|integer|min:1',
             'bayar' => 'required|numeric|min:0',
+            'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048'
         ]);
+
+        if ($request->hasFile('bukti_pembayaran')) {
+            // Simpan file dan ambil path-nya
+            $file = $request->file('bukti_pembayaran');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads/bukti_pembayaran', $fileName, 'public');
+        } else {
+            $filePath = null; // Jika tidak ada file yang diunggah
+        }
 
         // Ambil jadwal yang dipilih
         $jadwal = Jadwal::findOrFail($request->jadwal_id);
@@ -55,6 +65,7 @@ class BayarController extends Controller
             'bayar' => $bayar,
             'sisa' => max($sisa, 0), // Sisa tidak boleh negatif
             'status' => $status,
+            'bukti_pembayaran' => $filePath
         ]);
 
         Alert::success('success', 'Pembayaran berhasil disimpan!');
@@ -71,6 +82,21 @@ class BayarController extends Controller
         $bayar->save();
 
         Alert::success('Berhasil','Pembayaran Lunas');
+        return redirect()->route('transaksi.index');
+    }
+
+    public function edit($id)
+    {
+        $bayar = Bayar::findOrFail($id);
+
+        return redirect()->route('transaksi.index',compact('bayar'));
+    }
+
+    public function destroy($id)
+    {
+        Bayar::findOrFail($id)->delete();
+
+        Alert::success('Berhasil','Data Pembayaran di Hapus');
         return redirect()->route('transaksi.index');
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('dp');
             $table->integer('bayar');
             $table->integer('sisa')->default(0);
+            $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
         });
     }

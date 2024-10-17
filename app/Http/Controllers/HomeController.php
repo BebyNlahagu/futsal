@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bayar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,21 +27,22 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            // Dapatkan role pengguna
             $role = Auth::user()->role;
 
-            // Tampilkan view berdasarkan role
             switch ($role) {
                 case 1:
-                    return view('admin.index');
+                    $jumlahuser = User::where('role',0)->count();
+                    $transaksi = Bayar::count();
+                    return view('admin.index',compact('jumlahuser','transaksi'));
                 case 2:
-                    return view('kasir.index');
+                    $jumlahuser = User::where('role',0)->count();
+                    $jumlah = Bayar::count();
+                    return view('kasir.index',compact('jumlah','jumlahuser'));
                 default:
                     return view('user.index');
             }
         }
 
-        // Jika pengguna tidak terautentikasi, bisa redirect ke halaman login atau lainnya
-        return redirect()->route('login'); // atau halaman lainnya
+        return redirect()->route('halaman.index'); // atau halaman lainnya
     }
 }
