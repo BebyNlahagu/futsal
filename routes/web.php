@@ -8,9 +8,12 @@ use App\Http\Controllers\KasirKontroller;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ProfileAdminController;
+use App\Http\Controllers\ProfileKasirController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
+use App\Models\ProfileKasir;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +51,7 @@ Route::middleware(['auth', 'role:1'])->group(function () {
     Route::resource('/admin/member',MemberController::class);
     Route::resource('/admin/casir',KasirKontroller::class);
     Route::resource('/admin/jadwal',JadwalController::class);
+    Route::resource('/admin/profile',ProfileAdminController::class);
 });
 
 // Rute untuk kasir
@@ -55,6 +59,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('/kasir/index', [HomeController::class, 'index'])->name('kasir.index');
 
     Route::resource('/kasir/transaksi',BayarController::class);
+    Route::resource('/kasir/profil',ProfileKasirController::class);
+
 
 
     Route::patch('/kasir/transaksi/{id}/update-status', [BayarController::class, 'updateStatus'])->name('bayars.updateStatus');
