@@ -93,8 +93,6 @@
                                                     @endif
                                                 @endforeach
                                             </tbody>
-
-
                                         </table>
                                     </div>
                                 </div>
@@ -102,8 +100,6 @@
                         </div>
 
                         <!-- Modal untuk tambah transaksi -->
-
-
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -137,7 +133,7 @@
 
                                             <div class="mb-3">
                                                 <label for="jadwal_id" class="form-label">Jadwal</label>
-                                                <select name="jadwal_id" id="jadwal_id" class="form-select" required>
+                                                <select name="jadwal_id" class="form-control" id="jadwal_id" required>
                                                     <option value="">Pilih Jadwal</option>
                                                     @foreach ($jadwals as $jadwal)
                                                         <option value="{{ $jadwal->id }}"
@@ -151,10 +147,8 @@
 
                                             <div class="mb-3">
                                                 <label for="user_id" class="form-label">User</label>
-                                                <select name="user_id" id="user_id" class="form-select" required>
-                                                    <option value="{{ auth()->user()->id }}">{{ auth()->user()->name }}
-                                                    </option>
-                                                </select>
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -209,11 +203,17 @@
                                 const jadwalSelect = document.getElementById('jadwal_id');
                                 const tanggalInput = document.getElementById('tanggal_main');
                                 const durasiInput = document.getElementById('durasi');
-                                const totalHargaInput = document.getElementById('total'); // perbaikan id
+                                const totalHargaInput = document.getElementById('total');
                                 const dpInput = document.getElementById('dp');
 
                                 function calculateTotal() {
                                     const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
+                                    if (!selectedOption.value || !tanggalInput.value || !durasiInput.value) {
+                                        totalHargaInput.value = '';
+                                        dpInput.value = '';
+                                        return;
+                                    }
+
                                     const hargaBiasa = parseInt(selectedOption.getAttribute('data-harga-biasa'));
                                     const hargaAkhirPekan = parseInt(selectedOption.getAttribute('data-harga-akhir-pekan'));
                                     const durasi = parseInt(durasiInput.value) || 0;
@@ -226,7 +226,7 @@
                                     totalHargaInput.value = total ? total.toLocaleString() : 0; // Format angka
 
                                     // Menghitung DP (25% dari total harga)
-                                    const dp = total * 0.25; // Misalnya 25%
+                                    const dp = total * 0.25;
                                     dpInput.value = dp ? dp.toLocaleString() : 0; // Format angka
                                 }
 
@@ -234,10 +234,15 @@
                                 tanggalInput.addEventListener('change', calculateTotal);
                                 durasiInput.addEventListener('input', calculateTotal);
                             });
+
+                            function copyRekening() {
+                                const rekening = document.querySelector("input[readonly]");
+                                rekening.select();
+                                document.execCommand("copy");
+                                alert("Nomor rekening telah disalin: " + rekening.value);
+                            }
                         </script>
                     </div>
-                @else
-                    <div class="alert alert-danger">Anda tidak memiliki akses untuk melakukan transaksi ini.</div>
                 @endif
             </div>
         </div>

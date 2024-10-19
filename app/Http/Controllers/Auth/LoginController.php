@@ -25,20 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo;
-
-    protected function redirectTo()
-    {
-        if (auth()->user()->role == 1) {
-            return '/admin/index';
-        } elseif (auth()->user()->role == 2) {
-            return '/kasir/index';
-        } elseif (auth()->user()->role == 0) {
-            return '/user/index';
-        }
-
-        return 'halaman.index';
-    }
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
