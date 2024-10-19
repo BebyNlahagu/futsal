@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="no_hp" class="col-sm-3 col-form-label">No Handpone</label>
+                            <label for="no_hp" class="col-sm-3 col-form-label">No,Hp/wa</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="no_hp" id="no_hp"
                                     value="{{ Auth::user()->no_hp }}">

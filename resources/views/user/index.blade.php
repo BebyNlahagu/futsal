@@ -11,7 +11,7 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-lg-7 text-center">
-                                <p class="fs-4 text-white animated zoomIn">Selamat Datang <strong class="text-white">Futsal Selayang</strong></p>
+                                <p class="fs-4 text-white animated zoomIn">Selamat Datang <strong class="text-white">AW Soccer Park</strong></p>
                                 <h1 class="display-1 text-white mb-4 animated zoomIn">Lihat dan Pilih Paket</h1>
                                 <a href="{{ route('user.paket') }}" class="btn btn-light rounded-pill py-3 px-5 animated zoomIn">Lihat Paket</a>
                             </div>

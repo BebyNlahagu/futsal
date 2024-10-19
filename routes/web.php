@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BayarController;
+use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KasirKontroller;
@@ -67,7 +68,6 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 });
 
-// Rute untuk user biasa
 Route::middleware(['auth', 'role:0'])->group(function () {
     Route::get('/user/index', [HomeController::class, 'index'])->name('user.index');
 
@@ -75,8 +75,10 @@ Route::middleware(['auth', 'role:0'])->group(function () {
     Route::get('/user/about',[UserLoginController::class,'about'])->name('user.about');
     Route::get('/user/paket',[UserLoginController::class,'paket'])->name('user.paket');
 
+    Route::get('/user/data',[DataUserController::class,'index'])->name('user.data.index');
+    Route::put('/user/data/{id}',[DataUserController::class,'update'])->name('user.data.update');
 
-    Route::get('/user/transaksi',[UserLoginController::class,'transaksi'])->name('user.trasaksi');
+    Route::get('/user/transaksi',[UserLoginController::class,'transaksi'])->name('user.transaksi');
     Route::post('/user/transaksi',[BayarController::class,'store'])->name('user.transaksi');
 });
 

@@ -65,7 +65,7 @@
                                                     @if ($bayar->user_id == auth()->user()->id && auth()->user()->role == 0)
                                                         <!-- Hanya menampilkan data user login dengan role 0 -->
                                                         <tr>
-                                                            <td>{{ $no++}}</td>
+                                                            <td>{{ $no++ }}</td>
                                                             <td>{{ $bayar->user->name }}</td>
                                                             <td>{{ $bayar->jadwal->jam }}</td>
                                                             <td>{{ $bayar->tanggal_main }}</td>
@@ -77,7 +77,8 @@
                                                             <td>{{ $bayar->status }}</td>
                                                             <td>
                                                                 @if ($bayar->bukti_pembayaran)
-                                                                    <img src="{{ asset('storage/' . $bayar->bukti_pembayaran) }}" alt="" style="width: 50px" height="auto">
+                                                                    <img src="{{ asset('storage/' . $bayar->bukti_pembayaran) }}"
+                                                                        alt="" style="width: 50px" height="auto">
                                                                 @endif
                                                             </td>
                                                             <td>
@@ -125,7 +126,8 @@
                                             @endif
                                         </div>
 
-                                        <form action="{{ route('user.transaksi') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('user.transaksi') }}" method="POST"
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="tanggal_main" class="form-label">Tanggal Main</label>
@@ -140,7 +142,7 @@
                                                     @foreach ($jadwals as $jadwal)
                                                         <option value="{{ $jadwal->id }}"
                                                             data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
-                                                            data-harga-akhir-pekan="{{ $jadwal->harga_akhir_pekan }}">
+                                                            data-harga-akhir-pekan="{{ $jadwal->harga_hari_pekan }}">
                                                             {{ $jadwal->jam }}
                                                         </option>
                                                     @endforeach
@@ -162,8 +164,8 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="total_harga" class="form-label">Total Harga</label>
-                                                <input type="text" id="total_harga" class="form-control" readonly>
+                                                <label for="total" class="form-label">Total Harga</label>
+                                                <input type="text" id="total" class="form-control" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -189,7 +191,8 @@
 
                                             <div class="mb-3">
                                                 <label for="bukti_pembayaran" class="form-label">Bukti Pembayaran</label>
-                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" accept="image/*" required>
+                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran"
+                                                    class="form-control" accept="image/*" required>
                                             </div>
 
                                             <div class="form-footer">
@@ -206,14 +209,14 @@
                                 const jadwalSelect = document.getElementById('jadwal_id');
                                 const tanggalInput = document.getElementById('tanggal_main');
                                 const durasiInput = document.getElementById('durasi');
-                                const totalHargaInput = document.getElementById('total_harga');
+                                const totalHargaInput = document.getElementById('total'); // perbaikan id
                                 const dpInput = document.getElementById('dp');
 
                                 function calculateTotal() {
                                     const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
                                     const hargaBiasa = parseInt(selectedOption.getAttribute('data-harga-biasa'));
                                     const hargaAkhirPekan = parseInt(selectedOption.getAttribute('data-harga-akhir-pekan'));
-                                    const durasi = parseInt(durasiInput.value);
+                                    const durasi = parseInt(durasiInput.value) || 0;
                                     const tanggal = new Date(tanggalInput.value);
                                     const isAkhirPekan = (tanggal.getDay() === 6 || tanggal.getDay() === 0); // 6: Sabtu, 0: Minggu
 
