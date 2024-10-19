@@ -29,6 +29,7 @@
                                 <th>ID</th>
                                 <th>User</th>
                                 <th>Jadwal</th>
+                                <th>Tanggal Di Buat</th>
                                 <th>Tanggal Main</th>
                                 <th>Durasi (Jam)</th>
                                 <th>Total</th>
@@ -50,6 +51,7 @@
                                     <td>{{ $bayar->user->name }}</td>
                                     <td>{{ $bayar->jadwal->jam }}</td>
                                     <td>{{ $bayar->tanggal_main }}</td>
+                                    <td>{{ $bayar->created_at }}</td>
                                     <td>{{ $bayar->durasi }} Jam</td>
                                     <td>{{ number_format($bayar->total, 0, ',', '.') }}</td>
                                     <td>{{ number_format($bayar->dp, 0, ',', '.') }}</td>
