@@ -12,6 +12,7 @@
     <link href="{{ asset('master/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('master/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('master/css/ruang-admin.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('master/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 
 </head>
 
@@ -27,6 +28,16 @@
                 <a class="nav-link" href="{{ route('admin.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Transaksi
+            </div>
+            <li class="nav-item {{ \Route::is('admin.transaksi') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.transaksi') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Transaksi</span>
+                </a>
             </li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
@@ -170,6 +181,15 @@
     <script src="{{ asset('master/js/ruang-admin.min.js') }}"></script>
     <script src="{{ asset('master/vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('master/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function (){
+           $('#dataTable').DataTable();
+           $('#dataTableHover').DataTable();
+        });
+    </script>
 </body>
 
 </html>

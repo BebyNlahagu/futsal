@@ -182,7 +182,7 @@
 
                         <div class="mb-3">
                             <label for="jadwal_id_update{{ $bayar->id }}" class="form-label">Jadwal</label>
-                            <select name="jadwal_id" id="jadwal_id_update{{ $bayar->id }}" class="form-select" required>
+                            <select name="jadwal_id" id="jadwal_id_update{{ $bayar->id }}" class="form-control" required>
                                 @foreach ($jadwals as $jadwal)
                                     <option value="{{ $jadwal->id }}" data-harga-biasa="{{ $jadwal->harga_hari_biasa }}" data-harga-akhir-pekan="{{ $jadwal->harga_hari_pekan }}" @if ($jadwal->id === $bayar->jadwal_id) selected @endif>
                                         {{ $jadwal->jam }}
@@ -193,7 +193,7 @@
 
                         <div class="mb-3">
                             <label for="user_id_update{{ $bayar->id }}" class="form-label">User</label>
-                            <select name="user_id" id="user_id_update{{ $bayar->id }}" class="form-select" required>
+                            <select name="user_id" id="user_id_update{{ $bayar->id }}" class="form-control" required>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" @if ($user->id === $bayar->user_id) selected @endif>
                                         {{ $user->name }}

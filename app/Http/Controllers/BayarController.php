@@ -15,7 +15,8 @@ class BayarController extends Controller
     {
         $jadwals = Jadwal::all();
         $users = User::where('role', 0)->get();
-        $bayars = Bayar::with(['jadwal', 'user'])->get(); // Mengambil data pembayaran beserta relasi jadwal dan user
+        $bayars = Bayar::with(['jadwal', 'user'])->get();
+
         return view('kasir.transaksi.index', compact('bayars', 'jadwals', 'users'));
     }
 

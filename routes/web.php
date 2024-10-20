@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BayarController;
+use App\Http\Controllers\DataTransaksiController;
 use App\Http\Controllers\DataUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
@@ -49,6 +50,8 @@ Route::middleware(['auth', 'role:1'])->group(function () {
         'update' => 'admin.lapangan.update',
         'destroy' => 'admin.lapangan.destroy'
     ]);
+
+    Route::get('/admin/transaksi',[DataTransaksiController::class,'index'])->name('admin.transaksi');
     Route::resource('/admin/member',MemberController::class);
     Route::resource('/admin/casir',KasirKontroller::class);
     Route::resource('/admin/jadwal',JadwalController::class);

@@ -26,7 +26,7 @@
                     </button>
                 </div>
                 <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush" id="lapanganTable">
+                    <table class="table align-items-center table-flush" id="dataTable">
                         <thead class="thead-light">
                             <tr>
                                 <th>Id</th>
