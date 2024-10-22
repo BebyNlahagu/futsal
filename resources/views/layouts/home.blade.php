@@ -73,7 +73,7 @@
                             @csrf
                         </form>
                     </div>
-                    <img src="{{ Storage::url(Auth::user()->img) }}" style="max-width: 50px" class="rounded-circle">
+                    <img src="{{ Storage::url(Auth::user()->img) }}" style="width: 40px; height:40px;" class="rounded-circle">
                 </div>
             </nav>
         </div>
