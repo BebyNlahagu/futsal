@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->hasMany(Bayar::class);
     }
 
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -22,6 +22,7 @@ class BayarController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'jadwal_id' => 'required|exists:jadwals,id',
             'user_id' => 'required|exists:users,id',
@@ -31,8 +32,18 @@ class BayarController extends Controller
             'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048'
         ]);
 
+        // Cek apakah jadwal sudah dipesan
+        $existingBooking = Bayar::where('jadwal_id', $request->jadwal_id)
+            ->whereDate('tanggal_main', $request->tanggal_main) // Cek berdasarkan tanggal
+            ->first();
+
+        if ($existingBooking) {
+            Alert::error('Jadwal Sudah Dipesan', 'Pilih Jadwal Lain');
+            return redirect()->back();
+        }
+
+        // Simpan file jika ada
         if ($request->hasFile('bukti_pembayaran')) {
-            // Simpan file dan ambil path-nya
             $file = $request->file('bukti_pembayaran');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/bukti_pembayaran', $fileName, 'public');
@@ -70,9 +81,10 @@ class BayarController extends Controller
             'bukti_pembayaran' => $filePath
         ]);
 
-        Alert::success('success', 'Pembayaran berhasil disimpan!');
+        Alert::success('Success', 'Pembayaran berhasil disimpan!');
         return redirect()->back();
     }
+
 
     public function updateStatus($id)
     {

@@ -101,6 +101,8 @@
 
     @yield('content')
 
+    @include('sweetalert::alert')
+
 
     {{-- <!-- Products Start -->
     <div class="container-fluid product py-5 my-5">

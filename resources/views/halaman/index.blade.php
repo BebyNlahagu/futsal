@@ -1,6 +1,7 @@
 @extends('layouts.user')
 
 @section('title','Halaman Home')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @section('gambar')
 <div class="container-fluid px-0 mb-5">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -75,6 +76,39 @@
     </div>
 </div>
 <!-- Store End -->
+
+<div class="container-fluid testimonial py-5">
+    <div class="container">
+        <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <p class="fs-5 fw-medium fst-italic text-primary">Testimoni</p>
+            <h1 class="display-6">Apa Yang Mereka Katakan</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.5s">
+            @foreach ($nilai as $n)
+            <div class="testimonial-item p-4 p-lg-5">
+                <h5>{{ $n->user->name }}</h5>
+                <div class="d-flex align-items-center justify-content-center">
+                    <div class="col-md-2 justify-content-center align-items-center">
+                        <img class="img-fluid flex-shrink-0" src="{{ Storage::url($n->user->img) }}" alt="Foto Profil {{ $n->user->name }}">
+                    </div>
+                    <div class="col-md-8 text-center">
+                        <div class="text-start ms-3">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $n->rating)
+                                    <span class="text-primary"><i class="fas fa-star"></i></span>
+                                @else
+                                    <span><i class="far fa-star"></i></span>
+                                @endif
+                            @endfor
+                            <p class="mb-4" style="font-style: italic;">"{{ $n->komentar }}"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 
 <!-- Contact Start -->
 <div class="container-xxl contact py-5">

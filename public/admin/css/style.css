@@ -419,8 +419,11 @@
 
 /*** Testimonial ***/
 .testimonial {
-    background: linear-gradient(rgba(136, 180, 78, .85), rgba(136, 180, 78, .85)), url(../img/testimonial-bg.jpg) center center no-repeat;
+    background: linear-gradient(rgba(89, 90, 89, 0.85), rgba(235, 236, 233, 0.85)), url(../../masuk/12.png) center center no-repeat;
     background-size: cover;
+    background-position: center;
+    background-repeat:no-repeat;
+    margin-bottom: 0px;
 }
 
 .testimonial-item {
@@ -428,7 +431,7 @@
     max-width: 600px;
     text-align: center;
     background: #FFFFFF;
-    border: 30px solid var(--primary);
+    border: 30px solid rgb(66, 41, 66) ;
 }
 
 .testimonial-item img {
@@ -464,6 +467,7 @@
 /*** Footer ***/
 .footer {
     color: #B0B9AE;
+    top : 0px;
 }
 
 .footer .btn.btn-link {

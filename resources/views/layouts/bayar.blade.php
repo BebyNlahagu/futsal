@@ -12,7 +12,6 @@
     <link href="{{ asset('master/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('master/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('master/css/ruang-admin.min.css') }}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -20,7 +19,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-text mx-3">Admin</div>
+                <div class="sidebar-brand-text mx-3">Kasir</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item {{ \Route::is('kasir.index') ? 'active' : '' }}">

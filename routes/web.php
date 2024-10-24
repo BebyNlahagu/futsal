@@ -12,10 +12,12 @@ use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\ProfileKasirController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
 use App\Models\ProfileKasir;
+use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,11 +32,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('halaman.index');
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('halaman.index');
 
-Route::get('/halaman/index',[LandingPageController::class,'index'])->name('halaman.index');
 Route::get('/halaman/about',[LandingPageController::class,'about'])->name('halaman.about');
 Route::get('/halaman/paket',[LandingPageController::class,'paket'])->name('halaman.paket');
 
@@ -83,5 +82,7 @@ Route::middleware(['auth', 'role:0'])->group(function () {
 
     Route::get('/user/transaksi',[UserLoginController::class,'transaksi'])->name('user.transaksi');
     Route::post('/user/transaksi',[BayarController::class,'store'])->name('user.transaksi');
+
+    Route::post('user/index', [RatingController::class,'store'])->name('user.rating');
 });
 
