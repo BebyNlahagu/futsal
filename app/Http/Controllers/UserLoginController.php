@@ -14,6 +14,8 @@ class UserLoginController extends Controller
     {
         $rating = Rating::all();
         $users = User::where('role', 0)->get();
+
+
         return view('user.index',compact('rating','users'));
     }
 
@@ -33,6 +35,37 @@ class UserLoginController extends Controller
         $jadwals = Jadwal::all();
         $users = User::where('role', 0)->get();
         $bayars = Bayar::with(['jadwal', 'user'])->get();
-        return view('user.trasaksi',compact('bayars','jadwals','users'));
+
+        $tanggalMain = request('tanggal_main');
+        $durasi = request('durasi', 1); // Default durasi 1 jika tidak ada input
+        $jadwalTerpesan = [];
+
+        if ($tanggalMain) {
+            // Ambil semua jadwal yang sudah dipesan untuk tanggal tertentu
+            $bookedSlots = Bayar::whereDate('tanggal_main', $tanggalMain)
+                ->pluck('jadwal_id')
+                ->toArray();
+
+            foreach ($bookedSlots as $jadwalId) {
+                // Cari jam dari jadwal yang sudah dipesan
+                $jadwal = Jadwal::find($jadwalId);
+                if ($jadwal) {
+                    $startHour = new \DateTime($jadwal->jam);
+
+                    // Tambahkan semua jam dalam durasi ke array jadwal terpesan
+                    for ($i = 0; $i < $durasi; $i++) {
+                        $newHour = clone $startHour;
+                        $newHour->modify("+{$i} hour");
+
+                        // Cari jadwal berdasarkan jam baru dan masukkan ID ke jadwalTerpesan jika belum ada
+                        $conflictJadwal = Jadwal::where('jam', $newHour->format('H:i'))->first();
+                        if ($conflictJadwal && !in_array($conflictJadwal->id, $jadwalTerpesan)) {
+                            $jadwalTerpesan[] = $conflictJadwal->id;
+                        }
+                    }
+                }
+            }
+        }
+        return view('user.trasaksi',compact('bayars','jadwals','users','jadwalTerpesan'));
     }
 }

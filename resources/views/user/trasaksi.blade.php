@@ -133,12 +133,13 @@
 
                                             <div class="mb-3">
                                                 <label for="jadwal_id" class="form-label">Jadwal</label>
-                                                <select name="jadwal_id" class="form-control" id="jadwal_id" required>
+                                                <select name="jadwal_id" id="jadwal_id" class="form-control" required>
                                                     <option value="">Pilih Jadwal</option>
                                                     @foreach ($jadwals as $jadwal)
-                                                        <option value="{{ $jadwal->id }}"
+                                                        <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->jam }}"
                                                             data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
-                                                            data-harga-akhir-pekan="{{ $jadwal->harga_hari_pekan }}">
+                                                            data-harga-pekan="{{ $jadwal->harga_hari_pekan }}"
+                                                            {{ in_array($jadwal->id, $jadwalTerpesan) ? 'disabled' : '' }}>
                                                             {{ $jadwal->jam }}
                                                         </option>
                                                     @endforeach

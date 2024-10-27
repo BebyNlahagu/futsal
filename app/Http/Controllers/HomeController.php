@@ -96,6 +96,8 @@ class HomeController extends Controller
 
                     return view('kasir.index', compact('jumlahuser', 'jumlah', 'total', 'transaksi_bulanan', 'transaksi_harian', 'transaksi_tahunan'));
                 default:
+
+                
                     return view('user.index');
             }
         }
