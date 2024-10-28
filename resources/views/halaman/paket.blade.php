@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title','Dartar paket')
+@section('title','Daftar Paket')
 @section('gambar')
 <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center py-5">
@@ -15,16 +15,28 @@
         <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
             <h1 class="display-6">List Harga</h1>
         </div>
+
+        <!-- Form Filter Tanggal -->
+        <form action="{{ route('halaman.paket') }}" method="GET" class="mb-4 text-center">
+            <label for="tanggal_main" class="form-label">Pilih Tanggal:</label>
+            <input type="date" id="tanggal_main" name="tanggal_main" value="{{ $tanggal_main }}" class="form-control w-auto d-inline">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <!-- Tampilkan tanggal yang dipilih -->
+        <h4 class="text-center">Tanggal: {{ \Carbon\Carbon::parse($tanggal_main)->format('d-m-Y') }}</h4>
+
         <div class="row g-4 justify-content-center">
             <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="card shadow-sm border-0"> <!-- Tambahkan shadow dan hilangkan border -->
+                <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        <table class="table table-hover table-bordered text-center align-middle"> <!-- Tambahkan table-hover dan align-middle untuk gaya lebih modern -->
-                            <thead class="table-dark"> <!-- Ubah header tabel menjadi gelap -->
+                        <table class="table table-hover table-bordered text-center align-middle">
+                            <thead class="table-dark">
                                 <tr>
                                     <th>Jam</th>
                                     <th>Harga Hari Biasa</th>
                                     <th>Harga Akhir Pekan</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,6 +45,14 @@
                                         <td>{{ $j->jam }}</td>
                                         <td>{{ $j->harga_hari_biasa }}</td>
                                         <td>{{ $j->harga_hari_pekan }}</td>
+                                        <td>
+                                            <!-- Cek apakah ada pemesanan di tanggal yang dipilih -->
+                                            @if($j->bayar->isNotEmpty())
+                                                <span class="badge bg-success">Sudah Di Bookin</span>
+                                            @else
+                                                <span class="badge bg-danger">Belum Dipesan</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -40,7 +60,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

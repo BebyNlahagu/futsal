@@ -18,30 +18,40 @@ class BayarController extends Controller
         $bayars = Bayar::with(['jadwal', 'user'])->get();
 
         $tanggalMain = request('tanggal_main');
-        $durasi = request('durasi', 1); // Default durasi 1 jika tidak ada input
+        $durasi = request('durasi', 1);
         $jadwalTerpesan = [];
 
         if ($tanggalMain) {
-            // Ambil semua jadwal yang sudah dipesan untuk tanggal tertentu
             $bookedSlots = Bayar::whereDate('tanggal_main', $tanggalMain)
                 ->pluck('jadwal_id')
                 ->toArray();
 
             foreach ($bookedSlots as $jadwalId) {
-                // Cari jam dari jadwal yang sudah dipesan
                 $jadwal = Jadwal::find($jadwalId);
                 if ($jadwal) {
                     $startHour = new \DateTime($jadwal->jam);
 
-                    // Tambahkan semua jam dalam durasi ke array jadwal terpesan
                     for ($i = 0; $i < $durasi; $i++) {
                         $newHour = clone $startHour;
                         $newHour->modify("+{$i} hour");
 
-                        // Cari jadwal berdasarkan jam baru dan masukkan ID ke jadwalTerpesan jika belum ada
                         $conflictJadwal = Jadwal::where('jam', $newHour->format('H:i'))->first();
                         if ($conflictJadwal && !in_array($conflictJadwal->id, $jadwalTerpesan)) {
-                            $jadwalTerpesan[] = $conflictJadwal->id;
+                            $isConflict = false;
+                            for ($j = 0; $j < $durasi; $j++) {
+                                $checkHour = clone $startHour;
+                                $checkHour->modify("+{$j} hour");
+                                if (in_array($conflictJadwal->id, $jadwalTerpesan) || Bayar::where('jadwal_id', $conflictJadwal->id)
+                                    ->whereDate('tanggal_main', $tanggalMain)
+                                    ->exists()
+                                ) {
+                                    $isConflict = true;
+                                    break;
+                                }
+                            }
+                            if (!$isConflict) {
+                                $jadwalTerpesan[] = $conflictJadwal->id;
+                            }
                         }
                     }
                 }
@@ -50,7 +60,6 @@ class BayarController extends Controller
 
         return view('kasir.transaksi.index', compact('bayars', 'jadwals', 'users', 'jadwalTerpesan'));
     }
-
 
     public function store(Request $request)
     {
@@ -87,7 +96,7 @@ class BayarController extends Controller
 
         // Tentukan harga berdasarkan hari
         $tanggal = new \Carbon\Carbon($request->tanggal_main);
-        $isAkhirPekan = ($tanggal->isWeekend()); // Mengecek apakah akhir pekan
+        $isAkhirPekan = $tanggal->isWeekend(); // Mengecek apakah akhir pekan
         $harga = $isAkhirPekan ? $jadwal->harga_hari_pekan : $jadwal->harga_hari_biasa;
 
         // Hitung total harga
@@ -99,7 +108,7 @@ class BayarController extends Controller
         $status = $sisa <= 0 ? 'Lunas' : 'Belum Lunas';
 
         // Simpan data ke tabel bayars
-        Bayar::create([
+        $bayarData = Bayar::create([
             'jadwal_id' => $request->jadwal_id,
             'user_id' => $request->user_id,
             'tanggal_main' => $request->tanggal_main,
@@ -112,9 +121,13 @@ class BayarController extends Controller
             'bukti_pembayaran' => $filePath
         ]);
 
+        // Update status jadwal menjadi "sudah di booking"
+        $jadwal->update(['status' => 'sudah di booking']);
+
         Alert::success('Success', 'Pembayaran berhasil disimpan!');
         return redirect()->back();
     }
+
 
 
     public function updateStatus($id)

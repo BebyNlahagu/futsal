@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('harga_hari_biasa');
             $table->integer('harga_hari_pekan');
             $table->foreignId('lapangan_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('tersedia');
             $table->timestamps();
         });
     }
