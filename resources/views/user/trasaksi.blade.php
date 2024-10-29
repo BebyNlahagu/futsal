@@ -171,6 +171,30 @@
                                             </div>
 
                                             <div class="mb-3">
+                                                <label for="no-rek" class="form-label">No. Rek</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="no-rek" name="no_rek" value="72108877778" readonly>
+                                                    <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()">Salin</button>
+                                                </div>
+                                                <div class="form-text">BSI a/n Alif Syarif</div>
+                                            </div>
+
+                                            <script>
+                                                function copyToClipboard() {
+                                                    const input = document.getElementById('no-rek');
+                                                    input.select();
+                                                    document.execCommand('copy');
+
+                                                    Swal.fire({
+                                                        title: 'Sukses!',
+                                                        text: 'Nomor rekening telah disalin!',
+                                                        icon: 'success',
+                                                        confirmButtonText: 'OK'
+                                                    });
+                                                }
+                                            </script>
+
+                                            <div class="mb-3">
                                                 <label for="status" class="form-label">Status Pembayaran</label>
                                                 <input type="text" name="status" id="status" class="form-control" readonly>
                                             </div>
