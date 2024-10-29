@@ -26,10 +26,8 @@ class UserLoginController extends Controller
 
     public function paket(Request $request)
     {
-        // Dapatkan tanggal dari input user atau gunakan tanggal hari ini sebagai default
         $tanggal_main = $request->input('tanggal_main', now()->toDateString());
 
-        // Ambil jadwal dan cek pemesanan di tanggal yang dipilih dengan status 'Lunas'
         $jadwal = Jadwal::with(['bayar' => function ($query) use ($tanggal_main) {
             $query->where('status', 'Lunas')
                 ->whereDate('tanggal_main', $tanggal_main);
@@ -55,17 +53,14 @@ class UserLoginController extends Controller
                 ->toArray();
 
             foreach ($bookedSlots as $jadwalId) {
-                // Cari jam dari jadwal yang sudah dipesan
                 $jadwal = Jadwal::find($jadwalId);
                 if ($jadwal) {
                     $startHour = new \DateTime($jadwal->jam);
 
-                    // Tambahkan semua jam dalam durasi ke array jadwal terpesan
                     for ($i = 0; $i < $durasi; $i++) {
                         $newHour = clone $startHour;
                         $newHour->modify("+{$i} hour");
 
-                        // Cari jadwal berdasarkan jam baru dan masukkan ID ke jadwalTerpesan jika belum ada
                         $conflictJadwal = Jadwal::where('jam', $newHour->format('H:i'))->first();
                         if ($conflictJadwal && !in_array($conflictJadwal->id, $jadwalTerpesan)) {
                             $jadwalTerpesan[] = $conflictJadwal->id;

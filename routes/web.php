@@ -64,8 +64,6 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::resource('/kasir/transaksi',BayarController::class);
     Route::resource('/kasir/profil',ProfileKasirController::class);
 
-
-
     Route::patch('/kasir/transaksi/{id}/update-status', [BayarController::class, 'updateStatus'])->name('bayars.updateStatus');
 
 });

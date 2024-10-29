@@ -122,7 +122,65 @@
                                             @endif
                                         </div>
 
-                                        <form action="{{ route('user.transaksi') }}" method="POST"
+                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label for="user_id" class="form-label">User</label>
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tanggal_main" class="form-label">Tanggal Main</label>
+                                                <input type="date" name="tanggal_main" id="tanggal_main" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="jadwal_id" class="form-label">Jadwal</label>
+                                                <select name="jadwal_id" id="jadwal_id" class="form-control" required>
+                                                    <option value="">Pilih Jadwal</option>
+                                                    @foreach ($jadwals as $jadwal)
+                                                        <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->jam }}"
+                                                            data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
+                                                            data-harga-pekan="{{ $jadwal->harga_hari_pekan }}"
+                                                            {{ in_array($jadwal->id, $jadwalTerpesan) ? 'disabled' : '' }}>
+                                                            {{ $jadwal->jam }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="durasi" class="form-label">Durasi (Jam)</label>
+                                                <input type="number" name="durasi" id="durasi" class="form-control" min="1"
+                                                    max="4" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="total" class="form-label">Total Harga</label>
+                                                <input type="text" name="total" id="total" class="form-control" readonly>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="dp" class="form-label">Uang Muka (25%)</label>
+                                                <input type="text" name="dp" id="dp" class="form-control" readonly>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="bayar" class="form-label">Bayar</label>
+                                                <input type="text" name="bayar" id="bayar" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label">Status Pembayaran</label>
+                                                <input type="text" name="status" id="status" class="form-control" readonly>
+                                            </div>
+
+                                            <div class="form-footer">
+                                                <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
+                                            </div>
+                                        </form>
+
+                                        {{-- <form action="{{ route('user.transaksi') }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
@@ -144,12 +202,6 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="user_id" class="form-label">User</label>
-                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
-                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -193,7 +245,7 @@
                                             <div class="form-footer">
                                                 <button type="submit" class="btn btn-primary">Simpan Pembayaran</button>
                                             </div>
-                                        </form>
+                                        </form> --}}
                                     </div>
                                 </div>
                             </div>
@@ -202,46 +254,89 @@
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 const jadwalSelect = document.getElementById('jadwal_id');
-                                const tanggalInput = document.getElementById('tanggal_main');
                                 const durasiInput = document.getElementById('durasi');
+                                const tanggalInput = document.getElementById('tanggal_main');
                                 const totalHargaInput = document.getElementById('total');
                                 const dpInput = document.getElementById('dp');
+                                const bayarInput = document.getElementById('bayar');
+                                const statusInput = document.getElementById('status');
 
-                                function calculateTotal() {
+                                const calculatePrice = () => {
                                     const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
-                                    if (!selectedOption.value || !tanggalInput.value || !durasiInput.value) {
+                                    const durasi = parseInt(durasiInput.value);
+
+                                    if (!selectedOption || isNaN(durasi) || durasi <= 0) {
                                         totalHargaInput.value = '';
                                         dpInput.value = '';
+                                        statusInput.value = '';
                                         return;
                                     }
 
-                                    const hargaBiasa = parseInt(selectedOption.getAttribute('data-harga-biasa'));
-                                    const hargaAkhirPekan = parseInt(selectedOption.getAttribute('data-harga-akhir-pekan'));
-                                    const durasi = parseInt(durasiInput.value) || 0;
-                                    const tanggal = new Date(tanggalInput.value);
-                                    const isAkhirPekan = (tanggal.getDay() === 6 || tanggal.getDay() === 0); // 6: Sabtu, 0: Minggu
+                                    const isWeekend = [0, 6].includes(new Date(tanggalInput.value).getDay());
+                                    const hargaPerJam = isWeekend ?
+                                        parseInt(selectedOption.getAttribute('data-harga-pekan')) :
+                                        parseInt(selectedOption.getAttribute('data-harga-biasa'));
 
-                                    const hargaPerJam = isAkhirPekan ? hargaAkhirPekan : hargaBiasa;
-                                    const total = hargaPerJam * durasi;
+                                    const totalHarga = hargaPerJam * durasi;
+                                    totalHargaInput.value = totalHarga.toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
 
-                                    totalHargaInput.value = total ? total.toLocaleString() : 0; // Format angka
+                                    const dp = totalHarga * 0.25;
+                                    dpInput.value = dp.toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
 
-                                    // Menghitung DP (25% dari total harga)
-                                    const dp = total * 0.25;
-                                    dpInput.value = dp ? dp.toLocaleString() : 0; // Format angka
-                                }
+                                    updatePaymentStatus(totalHarga);
+                                };
 
-                                jadwalSelect.addEventListener('change', calculateTotal);
-                                tanggalInput.addEventListener('change', calculateTotal);
-                                durasiInput.addEventListener('input', calculateTotal);
+                                const updatePaymentStatus = (total) => {
+                                    const bayar = parseFloat(bayarInput.value.replace(/[^0-9.-]+/g, ""));
+                                    statusInput.value = (!isNaN(bayar) && bayar >= total) ? 'Lunas' : 'Belum Lunas';
+                                };
+
+                                const updateUnavailableSlots = () => {
+                                    const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
+                                    const durasi = parseInt(durasiInput.value);
+                                    const jadwalElements = jadwalSelect.options;
+
+                                    for (let option of jadwalElements) {
+                                        option.disabled = false;
+                                    }
+
+                                    if (selectedOption && !isNaN(durasi) && durasi > 0) {
+                                        const selectedJam = new Date(tanggalInput.value + ' ' + selectedOption.getAttribute('data-jam'));
+                                        for (let i = 0; i < durasi; i++) {
+                                            const jamBaru = new Date(selectedJam);
+                                            jamBaru.setHours(selectedJam.getHours() + i);
+
+                                            for (let option of jadwalElements) {
+                                                const jam = new Date(tanggalInput.value + ' ' + option.getAttribute('data-jam'));
+                                                if (jam.getTime() === jamBaru.getTime() || {{ json_encode($jadwalTerpesan) }}.includes(option.value)) {
+                                                    option.disabled = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                };
+
+                                jadwalSelect.addEventListener('change', () => {
+                                    calculatePrice();
+                                    updateUnavailableSlots();
+                                });
+                                durasiInput.addEventListener('input', () => {
+                                    calculatePrice();
+                                    updateUnavailableSlots();
+                                });
+                                tanggalInput.addEventListener('input', () => {
+                                    calculatePrice();
+                                    updateUnavailableSlots();
+                                });
+                                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(
+                                    /[^0-9.-]+/g, ""))));
                             });
-
-                            function copyRekening() {
-                                const rekening = document.querySelector("input[readonly]");
-                                rekening.select();
-                                document.execCommand("copy");
-                                alert("Nomor rekening telah disalin: " + rekening.value);
-                            }
                         </script>
                     </div>
                 @endif
