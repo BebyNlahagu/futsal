@@ -36,6 +36,8 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+        $imagePath = $data['img']->store('public/images');
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -44,8 +46,8 @@ class RegisterController extends Controller
             'tanggal_lahir' => $data['tanggal_lahir'],
             'alamat' => $data['alamat'],
             'no_hp' => $data['no_hp'],
-            'img' => $data['img'],
-            'role' => 0, // Atur role default menjadi 0
+            'img' => $imagePath,
+            'role' => 0,
         ]);
     }
 
