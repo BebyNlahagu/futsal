@@ -64,34 +64,45 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($bayar->status !== 'lunas')
-                                            <form action="{{ route('bayars.updateStatus', $bayar->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-success btn-sm">Konfirmasi
-                                                    Lunas</button>
-                                            </form>
-                                        @endif
-                                        <div class="d-flex">
-                                            <a href="{{ route('transaksi.edit', $bayar->id) }}"
-                                                class="btn btn-warning btn-sm me-2" data-toggle="modal"
-                                                data-target="#edit{{ $bayar->id }}"><i class="fa fa-edit"></i></a>
-                                            <form action="{{ route('transaksi.destroy', $bayar->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </form>
+                                        <div class="d-flex m-1">
+                                            @if ($bayar->status === 'dibatalkan')
+                                                <form action="{{ route('transaksi.destroy', $bayar->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger mx-0"><i class="fa fa-trash"></i></button>
+                                                </form>
+                                            @elseif ($bayar->status !== 'lunas')
+                                                <!-- Tombol Konfirmasi Lunas dan Batalkan Booking akan tampil jika status belum lunas -->
+                                                <form action="{{ route('bayars.updateStatus', $bayar->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-success mx-0"><i class="fa fa-check-square"></i></button>
+                                                </form>
+                                                <form action="{{ route('transaksi.batal', $bayar->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-danger mx-0 ms-2">x</button>
+                                                </form>
+                                                <!-- Tombol Edit tetap ditampilkan -->
+                                                <a href="{{ route('transaksi.edit', $bayar->id) }}" class="btn btn-warning mx-0 ms-2" data-toggle="modal"
+                                                   data-target="#edit{{ $bayar->id }}"><i class="fa fa-edit"></i></a>
+                                            @else
+                                                <a href="{{ route('transaksi.edit', $bayar->id) }}" class="btn btn-warning mx-0 ms-2" data-toggle="modal"
+                                                   data-target="#edit{{ $bayar->id }}"><i class="fa fa-edit"></i></a>
+                                                <form action="{{ route('transaksi.destroy', $bayar->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger mx-0 ms-2"><i class="fa fa-trash"></i></button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
@@ -159,10 +170,7 @@
                             <input type="text" name="bayar" id="bayar" class="form-control" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status Pembayaran</label>
-                            <input type="text" name="status" id="status" class="form-control" readonly>
-                        </div>
+                        <input type="hidden" name="status" id="status">
 
                         <div class="form-footer">
                             <button type="submit" class="btn btn-primary">Simpan Transaksi</button>

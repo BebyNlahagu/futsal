@@ -41,7 +41,8 @@ class BayarController extends Controller
                             for ($j = 0; $j < $durasi; $j++) {
                                 $checkHour = clone $startHour;
                                 $checkHour->modify("+{$j} hour");
-                                if (in_array($conflictJadwal->id, $jadwalTerpesan) || Bayar::where('jadwal_id', $conflictJadwal->id)
+                                if (
+                                    in_array($conflictJadwal->id, $jadwalTerpesan) || Bayar::where('jadwal_id', $conflictJadwal->id)
                                     ->whereDate('tanggal_main', $tanggalMain)
                                     ->exists()
                                 ) {
@@ -72,9 +73,8 @@ class BayarController extends Controller
             'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048'
         ]);
 
-        // Cek apakah jadwal sudah dipesan
         $existingBooking = Bayar::where('jadwal_id', $request->jadwal_id)
-            ->whereDate('tanggal_main', $request->tanggal_main) // Cek berdasarkan tanggal
+            ->whereDate('tanggal_main', $request->tanggal_main)
             ->first();
 
         if ($existingBooking) {
@@ -82,46 +82,39 @@ class BayarController extends Controller
             return redirect()->back();
         }
 
-        // Simpan file jika ada
         if ($request->hasFile('bukti_pembayaran')) {
             $file = $request->file('bukti_pembayaran');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads/bukti_pembayaran', $fileName, 'public');
         } else {
-            $filePath = null; // Jika tidak ada file yang diunggah
+            $filePath = null;
         }
 
-        // Ambil jadwal yang dipilih
         $jadwal = Jadwal::findOrFail($request->jadwal_id);
 
-        // Tentukan harga berdasarkan hari
         $tanggal = new \Carbon\Carbon($request->tanggal_main);
-        $isAkhirPekan = $tanggal->isWeekend(); // Mengecek apakah akhir pekan
+        $isAkhirPekan = $tanggal->isWeekend();
         $harga = $isAkhirPekan ? $jadwal->harga_hari_pekan : $jadwal->harga_hari_biasa;
 
-        // Hitung total harga
         $total = $harga * $request->durasi;
 
-        // Hitung sisa dan status
         $bayar = $request->bayar;
         $sisa = $total - $bayar;
         $status = $sisa <= 0 ? 'Lunas' : 'Belum Lunas';
 
-        // Simpan data ke tabel bayars
         $bayarData = Bayar::create([
             'jadwal_id' => $request->jadwal_id,
             'user_id' => $request->user_id,
             'tanggal_main' => $request->tanggal_main,
             'durasi' => $request->durasi,
             'total' => $total,
-            'dp' => $total * 0.25, // Misalnya 25%
+            'dp' => $total * 0.25,
             'bayar' => $bayar,
-            'sisa' => max($sisa, 0), // Sisa tidak boleh negatif
+            'sisa' => max($sisa, 0),
             'status' => $status,
             'bukti_pembayaran' => $filePath
         ]);
 
-        // Update status jadwal menjadi "sudah di booking"
         $jadwal->update(['status' => 'sudah di booking']);
 
         Alert::success('Success', 'Pembayaran berhasil disimpan!');
@@ -134,9 +127,8 @@ class BayarController extends Controller
     {
         $bayar = Bayar::findOrFail($id);
 
-        // Update status menjadi 'lunas'
         $bayar->status = 'lunas';
-        $bayar->sisa = 0; // Set sisa menjadi 0 jika sudah lunas
+        $bayar->sisa = 0;
         $bayar->save();
 
         Alert::success('Berhasil', 'Pembayaran Lunas');
@@ -175,15 +167,12 @@ class BayarController extends Controller
             $filePath = $bayar->bukti_pembayaran;
         }
 
-        // Ambil jadwal yang dipilih
         $jadwal = Jadwal::findOrFail($request->jadwal_id);
 
-        // Tentukan harga berdasarkan hari
         $tanggal = new \Carbon\Carbon($request->tanggal_main);
         $isAkhirPekan = ($tanggal->isWeekend());
         $harga = $isAkhirPekan ? $jadwal->harga_hari_pekan : $jadwal->harga_hari_biasa;
 
-        // Hitung total harga
         $total = $harga * $request->durasi;
 
         $bayarAmount = $request->bayar;
@@ -205,6 +194,17 @@ class BayarController extends Controller
 
         Alert::success('success', 'Pembayaran berhasil diperbarui!');
         return redirect()->back();
+    }
+
+    public function batal($id)
+    {
+        $bayar = Bayar::findOrFail($id);
+        if ($bayar->status !== 'lunas') {
+            $bayar->status = 'dibatalkan';
+            $bayar->save();
+            return redirect()->back()->with('success', 'Booking berhasil dibatalkan.');
+        }
+        return redirect()->back()->with('error', 'Booking tidak dapat dibatalkan.');
     }
 
     public function destroy($id)

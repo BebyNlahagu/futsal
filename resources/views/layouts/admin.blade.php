@@ -39,6 +39,12 @@
                     <span>Transaksi</span>
                 </a>
             </li>
+            <li class="nav-item {{ \Route::is('admin.laporan') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.laporan') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Laporan</span>
+                </a>
+            </li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Features

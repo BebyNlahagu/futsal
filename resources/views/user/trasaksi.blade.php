@@ -95,6 +95,10 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                </div>
+                                <div style="font-style: italic">
+                                   *Harap datang 10 Menit sebelum bertanding
                                 </div>
                             </div>
                         </div>
@@ -194,10 +198,7 @@
                                                 }
                                             </script>
 
-                                            <div class="mb-3">
-                                                <label for="status" class="form-label">Status Pembayaran</label>
-                                                <input type="text" name="status" id="status" class="form-control" readonly>
-                                            </div>
+                                            <input type="hidden" name="status" id="status">
 
                                             <div class="form-footer">
                                                 <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
@@ -276,7 +277,7 @@
                         </div>
 
                         <script>
-                            document.addEventListener('DOMContentLoaded', function() {
+                            document.addEventListener('DOMContentLoaded', function () {
                                 const jadwalSelect = document.getElementById('jadwal_id');
                                 const durasiInput = document.getElementById('durasi');
                                 const tanggalInput = document.getElementById('tanggal_main');
@@ -284,6 +285,7 @@
                                 const dpInput = document.getElementById('dp');
                                 const bayarInput = document.getElementById('bayar');
                                 const statusInput = document.getElementById('status');
+                                const transaksiForm = document.getElementById('transaksiForm');
 
                                 const calculatePrice = () => {
                                     const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
@@ -320,6 +322,28 @@
                                     const bayar = parseFloat(bayarInput.value.replace(/[^0-9.-]+/g, ""));
                                     statusInput.value = (!isNaN(bayar) && bayar >= total) ? 'Lunas' : 'Belum Lunas';
                                 };
+
+                                const validateDP = () => {
+                                    const bayar = parseFloat(bayarInput.value.replace(/[^0-9.-]+/g, ""));
+                                    const dp = parseFloat(dpInput.value.replace(/[^0-9.-]+/g, ""));
+
+                                    if (isNaN(bayar) || bayar < dp) {
+                                        Swal.fire({
+                                            title: 'Peringatan!',
+                                            text: 'Jumlah bayar harus minimal sebesar DP (25%) dari total harga.',
+                                            icon: 'warning',
+                                            confirmButtonText: 'OK'
+                                        });
+                                        return false;
+                                    }
+                                    return true;
+                                };
+
+                                transaksiForm.addEventListener('submit', function (e) {
+                                    if (!validateDP()) {
+                                        e.preventDefault(); // Cegah pengiriman form jika bayar kurang dari DP
+                                    }
+                                });
 
                                 const updateUnavailableSlots = () => {
                                     const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
@@ -358,10 +382,10 @@
                                     calculatePrice();
                                     updateUnavailableSlots();
                                 });
-                                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(
-                                    /[^0-9.-]+/g, ""))));
+                                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(/[^0-9.-]+/g, ""))));
                             });
                         </script>
+
                     </div>
                 @endif
             </div>

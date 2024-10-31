@@ -9,6 +9,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KasirKontroller;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileAdminController;
@@ -43,6 +44,8 @@ Auth::routes();
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
     Route::get('/admin/PDF',[PdfController::class,'pdf'])->name('admin.pdf');
+    Route::get('/admin/laporan', [LaporanController::class,'index'])->name('admin.laporan');
+    Route::get('/admin/laporan-pdf', [LaporanController::class,'pdf'])->name('admin.laporan-pdf');
 
     Route::resource('/admin/lapangan',LapanganController::class)->names([
         'index' => 'admin.lapangan.index',
@@ -65,6 +68,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     Route::resource('/kasir/transaksi',BayarController::class);
     Route::resource('/kasir/profil',ProfileKasirController::class);
+    Route::patch('/transaksi/{id}/batal', [BayarController::class, 'batal'])->name('transaksi.batal');
+
 
     Route::patch('/kasir/transaksi/{id}/update-status', [BayarController::class, 'updateStatus'])->name('bayars.updateStatus');
 
