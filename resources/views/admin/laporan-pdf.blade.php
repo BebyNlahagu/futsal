@@ -76,32 +76,30 @@
             <tr>
                 <th>No</th>
                 <th>User</th>
-                <th>Jadwal</th>
                 <th>Tanggal Main</th>
-                <th>Durasi</th>
                 <th>Harga Total</th>
-                <th>DP</th>
-                <th>Jumlah Bayar</th>
-                <th>Sisa Bayar</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            @php $no = 1; @endphp
+            @php
+                $no = 1;
+                $totalHarga = 0;
+            @endphp
             @foreach ($bayar as $t)
+            @php
+                $totalHarga += $t->total;
+            @endphp
                 <tr>
                     <td class="text-center">{{ $no++ }}</td>
                     <td>{{ $t->user->name }}</td>
-                    <td>{{ $t->jadwal->jam }}</td>
                     <td>{{ $t->tanggal_main }}</td>
-                    <td>{{ $t->durasi }} Jam</td>
-                    <td class="text-right">{{ number_format($t->total, 0, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($t->dp, 0, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($t->bayar, 0, ',', '.') }}</td>
-                    <td class="text-right">{{ number_format($t->sisa, 0, ',', '.') }}</td>
-                    <td>{{ $t->status }}</td>
+                    <td class="text-right">Rp.{{ number_format($t->total, 0, ',', '.') }},-</td>
                 </tr>
             @endforeach
+            <tr>
+                <td colspan="3" class="text-center">Jumlah Total</td>
+                <td class="text-right bold">Rp.{{ number_format($totalHarga, 0, ',', '.') }},-</td>
+            </tr>
         </tbody>
     </table>
 </body>

@@ -31,15 +31,8 @@
                             <tr>
                                 <th>Id</th>
                                 <th>User</th>
-                                <th>Jadwal</th>
                                 <th>Tanggal Main</th>
-                                <th>Durasi</th>
                                 <th>Harga Total</th>
-                                <th>DP</th>
-                                <th>Jumlah Bayar</th>
-                                <th>Sisa Bayar</th>
-                                <th>Status</th>
-                                <th>Bukti Pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,20 +41,8 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $t->user->name }}</td>
-                                    <td>{{ $t->jadwal->jam }}</td>
                                     <td>{{ $t->tanggal_main }}</td>
-                                    <td>{{ $t->durasi }} Jam</td>
-                                    <td>{{ number_format($t->total, 0, ',', '.') }}</td>
-                                    <td>{{ number_format($t->dp, 0, ',', '.') }}</td>
-                                    <td>{{ number_format($t->bayar, 0, ',', '.') }}</td>
-                                    <td>{{ number_format($t->sisa, 0, ',', '.') }}</td>
-                                    <td>{{ $t->status }}</td>
-                                    <td>
-                                        @if ($t->bukti_pembayaran)
-                                            <img src="{{ asset('storage/' . $t->bukti_pembayaran) }}" alt=""
-                                                style="width: 50px" height="auto">
-                                        @endif
-                                    </td>
+                                    <td>Rp.{{ number_format($t->total, 0, ',', '.') }},-</td>
                                 </tr>
                             @endforeach
                         </tbody>
