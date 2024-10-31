@@ -10,6 +10,7 @@ use App\Http\Controllers\KasirKontroller;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\ProfileKasirController;
 use App\Http\Controllers\RatingController;
@@ -41,6 +42,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
+    Route::get('/admin/PDF',[PdfController::class,'pdf'])->name('admin.pdf');
 
     Route::resource('/admin/lapangan',LapanganController::class)->names([
         'index' => 'admin.lapangan.index',

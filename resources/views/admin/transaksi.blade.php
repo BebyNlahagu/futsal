@@ -16,6 +16,7 @@
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">@yield('title')</h6>
+                    <a class="btn" style="background: greenyellow;" href="{{ route('admin.pdf') }}"><i class="fa fa-download"> Cetak</i></a>
                 </div>
                 <div class="table-responsive p-3">
                     <table class="table align-items-center table-flush" id="dataTable">
@@ -64,5 +65,5 @@
             </div>
         </div>
     </div>
-    
+
 @endsection
