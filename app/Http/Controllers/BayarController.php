@@ -70,7 +70,7 @@ class BayarController extends Controller
             'tanggal_main' => 'required|date',
             'durasi' => 'required|integer|min:1',
             'bayar' => 'required|numeric|min:0',
-            'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048'
+            'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
         $existingBooking = Bayar::where('jadwal_id', $request->jadwal_id)

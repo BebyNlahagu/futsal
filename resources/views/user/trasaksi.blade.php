@@ -77,7 +77,7 @@
                                                             <td>{{ $bayar->status }}</td>
                                                             <td>
                                                                 @if ($bayar->bukti_pembayaran)
-                                                                    <img src="{{ asset('storage/' . $bayar->bukti_pembayaran) }}"
+                                                                    <img src="{{ Storage::url($bayar->bukti_pembayaran) }}"
                                                                         alt="" style="width: 50px" height="auto">
                                                                 @endif
                                                             </td>
@@ -126,7 +126,7 @@
                                             @endif
                                         </div>
 
-                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm">
+                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm" enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="user_id" class="form-label">User</label>
@@ -183,6 +183,11 @@
                                                 <div class="form-text">BSI a/n Alif Syarif</div>
                                             </div>
 
+                                            <div class="mb-3">
+                                                <label for="bukti_pembayaran" class="form-label">Foto Bukti</label>
+                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control">
+                                            </div>
+
                                             <script>
                                                 function copyToClipboard() {
                                                     const input = document.getElementById('no-rek');
@@ -204,73 +209,6 @@
                                                 <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
                                             </div>
                                         </form>
-
-                                        {{-- <form action="{{ route('user.transaksi') }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="mb-3">
-                                                <label for="tanggal_main" class="form-label">Tanggal Main</label>
-                                                <input type="date" name="tanggal_main" id="tanggal_main"
-                                                    class="form-control" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="jadwal_id" class="form-label">Jadwal</label>
-                                                <select name="jadwal_id" id="jadwal_id" class="form-control" required>
-                                                    <option value="">Pilih Jadwal</option>
-                                                    @foreach ($jadwals as $jadwal)
-                                                        <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->jam }}"
-                                                            data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
-                                                            data-harga-pekan="{{ $jadwal->harga_hari_pekan }}"
-                                                            {{ in_array($jadwal->id, $jadwalTerpesan) ? 'disabled' : '' }}>
-                                                            {{ $jadwal->jam }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="durasi" class="form-label">Durasi (Jam)</label>
-                                                <input type="number" name="durasi" id="durasi" class="form-control"
-                                                    min="1" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="total" class="form-label">Total Harga</label>
-                                                <input type="text" id="total" class="form-control" readonly>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="dp" class="form-label">Uang Muka (DP)</label>
-                                                <input type="text" id="dp" class="form-control" readonly>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="bayar" class="form-label">Jumlah Bayar</label>
-                                                <input type="number" name="bayar" id="bayar" class="form-control"
-                                                    min="0" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">No Rekening</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" readonly
-                                                        value="7210887778">
-                                                    <button class="btn btn-primary" type="button"
-                                                        onclick="copyRekening()">Copy</button>
-                                                </div>
-                                                <small class="form-text text-muted">BSI a/n Alif Syarif</small>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="bukti_pembayaran" class="form-label">Bukti Pembayaran</label>
-                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran"
-                                                    class="form-control" accept="image/*" required>
-                                            </div>
-
-                                            <div class="form-footer">
-                                                <button type="submit" class="btn btn-primary">Simpan Pembayaran</button>
-                                            </div>
-                                        </form> --}}
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +279,7 @@
 
                                 transaksiForm.addEventListener('submit', function (e) {
                                     if (!validateDP()) {
-                                        e.preventDefault(); // Cegah pengiriman form jika bayar kurang dari DP
+                                        e.preventDefault();
                                     }
                                 });
 
