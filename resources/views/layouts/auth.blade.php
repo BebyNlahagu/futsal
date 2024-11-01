@@ -14,6 +14,7 @@
 <body>
     <div class="wrapper">
         @yield('masuk')
+        @include('sweetalert::alert')
     </div>
 </body>
 

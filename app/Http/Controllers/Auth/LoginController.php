@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,12 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        Alert::error('Gagal', 'Email atau password tidak sesuai');
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'));
     }
 }

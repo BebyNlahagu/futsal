@@ -355,5 +355,99 @@
         </div>
     @endforeach
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modals = document.querySelectorAll('[id^="edit"]');
+
+            modals.forEach(modal => {
+                const idSuffix = modal.id.replace('edit', '');
+
+                const jadwalSelect = document.getElementById(`jadwal_id_update${idSuffix}`);
+                const durasiInput = document.getElementById(`durasi_update${idSuffix}`);
+                const tanggalInput = document.getElementById(`tanggal_main_update${idSuffix}`);
+                const totalHargaInput = document.getElementById(`total_update${idSuffix}`);
+                const dpInput = document.getElementById(`dp_update${idSuffix}`);
+                const bayarInput = document.getElementById(`bayar_update${idSuffix}`);
+                const statusInput = document.getElementById('status_update' + idSuffix);
+
+                const calculatePrice = () => {
+                    const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
+                    const durasi = parseInt(durasiInput.value);
+
+                    if (!selectedOption || isNaN(durasi) || durasi <= 0) {
+                        totalHargaInput.value = '';
+                        dpInput.value = '';
+                        statusInput.value = '';
+                        return;
+                    }
+
+                    const isWeekend = [0, 6].includes(new Date(tanggalInput.value).getDay());
+                    const hargaPerJam = isWeekend ?
+                        parseInt(selectedOption.getAttribute('data-harga-akhir-pekan')) :
+                        parseInt(selectedOption.getAttribute('data-harga-biasa'));
+
+                    const totalHarga = hargaPerJam * durasi;
+                    totalHargaInput.value = totalHarga.toLocaleString('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                    });
+
+                    const dp = totalHarga * 0.25;
+                    dpInput.value = dp.toLocaleString('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                    });
+
+                    updatePaymentStatus(totalHarga);
+                };
+
+                const updatePaymentStatus = (total) => {
+                    const bayar = parseFloat(bayarInput.value.replace(/[^0-9.-]+/g, ""));
+                    statusInput.value = (!isNaN(bayar) && bayar >= total) ? 'Lunas' : 'Belum Lunas';
+                };
+
+                const updateUnavailableSlots = () => {
+                    const selectedOption = jadwalSelect.options[jadwalSelect.selectedIndex];
+                    const durasi = parseInt(durasiInput.value);
+                    const jadwalElements = jadwalSelect.options;
+
+                    for (let option of jadwalElements) {
+                        option.disabled = false;
+                    }
+
+                    if (selectedOption && !isNaN(durasi) && durasi > 0) {
+                        const selectedJam = new Date(tanggalInput.value + ' ' + selectedOption.getAttribute('data-jam'));
+                        for (let i = 0; i < durasi; i++) {
+                            const jamBaru = new Date(selectedJam);
+                            jamBaru.setHours(selectedJam.getHours() + i);
+
+                            for (let option of jadwalElements) {
+                                const jam = new Date(tanggalInput.value + ' ' + option.getAttribute('data-jam'));
+                                if (jam.getTime() === jamBaru.getTime() || {{ json_encode($jadwalTerpesan) }}.includes(option.value)) {
+                                    option.disabled = true;
+                                }
+                            }
+                        }
+                    }
+                };
+
+                jadwalSelect.addEventListener('change', () => {
+                    calculatePrice();
+                    updateUnavailableSlots();
+                });
+                durasiInput.addEventListener('input', () => {
+                    calculatePrice();
+                    updateUnavailableSlots();
+                });
+                tanggalInput.addEventListener('input', () => {
+                    calculatePrice();
+                    updateUnavailableSlots();
+                });
+                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(/[^0-9.-]+/g, ""))));
+            });
+        });
+    </script>
+
+
 
 @endsection
