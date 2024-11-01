@@ -66,14 +66,29 @@
                             class="nav-item nav-link {{ \Route::is('user.transaksi') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('user.data.index') }}"
                             class="nav-item nav-link {{ \Route::is('user.data.index') ? 'active' : '' }}">Profil</a>
-                        </div>
-                    <div class="border-start ps-4 d-none d-lg-block">
-                        <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i></a>
+                    </div>
+                    <div class="border-start ps-4 d-lg-block d-none">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+                        </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     </div>
-                    <img src="{{ Storage::url(Auth::user()->img) }}" style="width: 40px; height:40px;" class="rounded-circle">
+
+                    <!-- For smaller screens -->
+                    <div class="d-lg-none">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+                        </a>
+                    </div>
+
+                    <img src="{{ Storage::url(Auth::user()->img) }}" style="width: 40px; height:40px;"
+                        class="rounded-circle">
                 </div>
             </nav>
         </div>
@@ -255,7 +270,8 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-primary mb-4">Alamat</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Jl. Setia Budi Ps. II, Tj. Sari, Kec. Medan Selayang, Kota Medan, Sumatera Utara 20132
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Jl. Setia Budi Ps. II, Tj.
+                        Sari, Kec. Medan Selayang, Kota Medan, Sumatera Utara 20132
                     </p>
                     <p class="mb-2"><i class="fa fa-phone-alt text-primary me-3"></i>+62 821-3499-7287</p>
                     <p class="mb-2"><i class="bi bi-instagram text-primary me-3"></i>@awsoccerpark</p>
@@ -264,8 +280,8 @@
                                 class="fab fa-instagram"></i></a>
                         <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
                                 class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-primary rounded-circle me-2" href="https://wa.me/6282134997287"><i
-                                class="fab fa-whatsapp"></i></a>
+                        <a class="btn btn-square btn-primary rounded-circle me-2"
+                            href="https://wa.me/6282134997287"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">

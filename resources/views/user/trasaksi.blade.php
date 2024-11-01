@@ -82,9 +82,10 @@
                                                                 @endif
                                                             </td>
                                                             <td>
-                                                                @if ($bayar->status !== 'lunas')
-                                                                    <span class="text-warning">Menunggu konfirmasi
-                                                                        kasir</span>
+                                                                @if ($bayar->status == 'dibatalkan')
+                                                                    <span class="text-danger">Booking telah dibatalkan</span>
+                                                                @elseif ($bayar->status !== 'lunas')
+                                                                    <span class="text-warning">Menunggu konfirmasi kasir</span>
                                                                 @else
                                                                     <span class="text-success">Lunas</span>
                                                                 @endif
@@ -95,7 +96,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                                 <div style="font-style: italic">
                                    *Harap datang 10 Menit sebelum bertanding
