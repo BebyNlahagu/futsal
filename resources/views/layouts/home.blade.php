@@ -80,7 +80,7 @@
 
                     <!-- For smaller screens -->
                     <div class="d-lg-none">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
+                        <a class="btn dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i>
                             Logout
