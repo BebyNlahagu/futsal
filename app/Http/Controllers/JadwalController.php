@@ -17,7 +17,6 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'jam' => 'required|array',
             'jam.*' => 'required|string',
@@ -27,13 +26,12 @@ class JadwalController extends Controller
             'harga_hari_pekan.*' => 'required|integer',
         ]);
 
-        // Loop melalui input jam dan simpan ke database
         foreach ($request->jam as $index => $jam) {
             Jadwal::create([
                 'jam' => $jam,
                 'harga_hari_biasa' => $request->harga_hari_biasa[$index],
                 'harga_hari_pekan' => $request->harga_hari_pekan[$index],
-                'lapangan_id' => $request->lapangan_id, // Jika ada input untuk lapangan_id
+                'lapangan_id' => $request->lapangan_id,
             ]);
         }
 

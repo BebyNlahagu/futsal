@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-sm-8">
                             <h5>Lapangan Nyaman dan Menyenangkan Bagi Pemain</h5>
-                            <p class="mb-0"> Bagi para pecinta sepak bola, bermain sepak bola merupakan kewajiban yang
+                            <p class="mb-0" style="text-align: justify;"> Bagi para pecinta sepak bola, bermain sepak bola merupakan kewajiban yang
                                 tidak boleh dilewatkan. Menyukai sepak bola tanpa memainkannya serasa ada yang kurang.
                                 Namun, datang pula masalah dari minimnya lapangan mini soccer yang tersedia di kota Medan.
                                 AW Soccer Park hadir sebagai jawaban para pecinta bola untuk memfasilitasi para penikmat

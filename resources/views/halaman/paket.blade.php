@@ -48,9 +48,9 @@
                                         <td>
                                             <!-- Cek apakah ada pemesanan di tanggal yang dipilih -->
                                             @if($j->bayar->isNotEmpty())
-                                                <span class="badge bg-success">Sudah Di Bookin</span>
+                                                <span class="badge bg-success">Sudah Di Booking</span>
                                             @else
-                                                <span class="badge bg-danger">Belum Dipesan</span>
+                                                <span class="badge bg-danger">Tersedia</span>
                                             @endif
                                         </td>
                                     </tr>

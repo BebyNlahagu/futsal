@@ -83,9 +83,16 @@
                                                             </td>
                                                             <td>
                                                                 @if ($bayar->status == 'dibatalkan')
-                                                                    <span class="text-danger">Booking telah dibatalkan</span>
+                                                                    <span class="text-danger">Booking telah
+                                                                        dibatalkan</span>
                                                                 @elseif ($bayar->status !== 'lunas')
-                                                                    <span class="text-warning">Menunggu konfirmasi kasir</span>
+                                                                    <span class="text-warning">Menunggu konfirmasi
+                                                                        kasir</span>
+                                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#lunasiModal{{ $bayar->id }}">
+                                                                        Lunasi
+                                                                    </button>
                                                                 @else
                                                                     <span class="text-success">Lunas</span>
                                                                 @endif
@@ -98,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div style="font-style: italic">
-                                   *Harap datang 10 Menit sebelum bertanding
+                                    *Harap datang 10 Menit sebelum bertanding
                                 </div>
                             </div>
                         </div>
@@ -126,16 +133,20 @@
                                             @endif
                                         </div>
 
-                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm" enctype="multipart/form-data">
+                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm"
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="user_id" class="form-label">User</label>
-                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
-                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                                                <input type="hidden" name="user_id" id="user_id"
+                                                    value="{{ Auth::user()->id }}">
+                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}"
+                                                    readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="tanggal_main" class="form-label">Tanggal Main</label>
-                                                <input type="date" name="tanggal_main" id="tanggal_main" class="form-control" required>
+                                                <input type="date" name="tanggal_main" id="tanggal_main"
+                                                    class="form-control" required>
                                             </div>
 
                                             <div class="mb-3">
@@ -155,37 +166,43 @@
 
                                             <div class="mb-3">
                                                 <label for="durasi" class="form-label">Durasi (Jam)</label>
-                                                <input type="number" name="durasi" id="durasi" class="form-control" min="1"
-                                                    max="4" required>
+                                                <input type="number" name="durasi" id="durasi" class="form-control"
+                                                    min="1" max="4" required>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="total" class="form-label">Total Harga</label>
-                                                <input type="text" name="total" id="total" class="form-control" readonly>
+                                                <input type="text" name="total" id="total" class="form-control"
+                                                    readonly>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="dp" class="form-label">Uang Muka (25%)</label>
-                                                <input type="text" name="dp" id="dp" class="form-control" readonly>
+                                                <input type="text" name="dp" id="dp" class="form-control"
+                                                    readonly>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="bayar" class="form-label">Bayar</label>
-                                                <input type="text" name="bayar" id="bayar" class="form-control" required>
+                                                <input type="text" name="bayar" id="bayar" class="form-control"
+                                                    required>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="no-rek" class="form-label">No. Rek</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="no-rek" name="no_rek" value="72108877778" readonly>
-                                                    <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()">Salin</button>
+                                                    <input type="text" class="form-control" id="no-rek"
+                                                        name="no_rek" value="72108877778" readonly>
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="copyToClipboard()">Salin</button>
                                                 </div>
                                                 <div class="form-text">BSI a/n Alif Syarif</div>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="bukti_pembayaran" class="form-label">Foto Bukti</label>
-                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control">
+                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran"
+                                                    class="form-control">
                                             </div>
 
                                             <script>
@@ -215,7 +232,7 @@
                         </div>
 
                         <script>
-                            document.addEventListener('DOMContentLoaded', function () {
+                            document.addEventListener('DOMContentLoaded', function() {
                                 const jadwalSelect = document.getElementById('jadwal_id');
                                 const durasiInput = document.getElementById('durasi');
                                 const tanggalInput = document.getElementById('tanggal_main');
@@ -277,7 +294,7 @@
                                     return true;
                                 };
 
-                                transaksiForm.addEventListener('submit', function (e) {
+                                transaksiForm.addEventListener('submit', function(e) {
                                     if (!validateDP()) {
                                         e.preventDefault();
                                     }
@@ -293,14 +310,16 @@
                                     }
 
                                     if (selectedOption && !isNaN(durasi) && durasi > 0) {
-                                        const selectedJam = new Date(tanggalInput.value + ' ' + selectedOption.getAttribute('data-jam'));
+                                        const selectedJam = new Date(tanggalInput.value + ' ' + selectedOption.getAttribute(
+                                            'data-jam'));
                                         for (let i = 0; i < durasi; i++) {
                                             const jamBaru = new Date(selectedJam);
                                             jamBaru.setHours(selectedJam.getHours() + i);
 
                                             for (let option of jadwalElements) {
                                                 const jam = new Date(tanggalInput.value + ' ' + option.getAttribute('data-jam'));
-                                                if (jam.getTime() === jamBaru.getTime() || {{ json_encode($jadwalTerpesan) }}.includes(option.value)) {
+                                                if (jam.getTime() === jamBaru.getTime() || {{ json_encode($jadwalTerpesan) }}
+                                                    .includes(option.value)) {
                                                     option.disabled = true;
                                                 }
                                             }
@@ -320,9 +339,60 @@
                                     calculatePrice();
                                     updateUnavailableSlots();
                                 });
-                                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(/[^0-9.-]+/g, ""))));
+                                bayarInput.addEventListener('input', () => updatePaymentStatus(parseFloat(totalHargaInput.value.replace(
+                                    /[^0-9.-]+/g, ""))));
                             });
                         </script>
+
+
+                        <!-- Modal -->
+                       @foreach ($bayars as $bayar)
+                       <div class="modal fade" id="lunasiModal{{ $bayar->id }}" tabindex="-1"
+                        aria-labelledby="lunasiModalLabel{{ $bayar->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="lunasiModalLabel{{ $bayar->id }}">Konfirmasi
+                                        Pelunasan</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Total Bayar:</strong> Rp{{ number_format($bayar->total, 0, ',', '.') }}
+                                    </p>
+                                    <p><strong>DP:</strong> Rp{{ number_format($bayar->dp, 0, ',', '.') }}</p>
+                                    <p><strong>Jumlah Bayar:</strong> Rp{{ number_format($bayar->bayar, 0, ',', '.') }}
+                                    </p>
+                                    <p><strong>Sisa Bayar:</strong> Rp{{ number_format($bayar->sisa, 0, ',', '.') }}
+                                    </p>
+
+                                    <div class="mb-3">
+                                        <label for="bayar{{ $bayar->id }}" class="form-label">Masukkan
+                                            Jumlah Pembayaran:</label>
+                                        <input type="number" class="form-control"
+                                            id="bayar{{ $bayar->id }}" name="bayar" min="0"
+                                            max="{{ $bayar->sisa }}" required>
+                                        <div class="form-text">Masukkan jumlah yang ingin Anda bayar. Maksimal:
+                                            Rp{{ number_format($bayar->sisa, 0, ',', '.') }}</div>
+                                    </div>
+
+                                    <p>Apakah Anda yakin ingin melunasi pembayaran ini?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <form action="{{ route('bayar.lunasi', $bayar->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="bayar"
+                                            value="{{ old('bayar', 0) }}">
+                                        <button type="submit" class="btn btn-primary">Lunasi</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                       @endforeach
+
 
                     </div>
                 @endif

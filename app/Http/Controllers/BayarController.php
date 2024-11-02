@@ -121,7 +121,23 @@ class BayarController extends Controller
         return redirect()->back();
     }
 
+    public function lunasi($id)
+    {
+        $bayar = Bayar::find($id);
 
+        if (!$bayar || $bayar->user_id !== auth()->user()->id) {
+
+            Alert::error('Gagal', 'Data pembayaran tidak ditemukan atau akses ditolak.');
+            return redirect()->back();
+        }
+
+        $bayar->status = 'lunas';
+        $bayar->sisa = 0;
+        $bayar->save();
+
+        Alert::Success('Berhasil', 'pembayaran Berhasil');
+        return redirect()->back();
+    }
 
     public function updateStatus($id)
     {
@@ -199,9 +215,17 @@ class BayarController extends Controller
     public function batal($id)
     {
         $bayar = Bayar::findOrFail($id);
-        if ($bayar->status !== 'lunas') {
+
+        if ($bayar->status !== 'dibatalkan') {
             $bayar->status = 'dibatalkan';
             $bayar->save();
+
+            $jadwal = Jadwal::where('id', $bayar->jadwal_id)->first();
+            if ($jadwal) {
+                $jadwal->status = 'belum dipesan';
+                $jadwal->save();
+            }
+
             return redirect()->back()->with('success', 'Booking berhasil dibatalkan.');
         }
         return redirect()->back()->with('error', 'Booking tidak dapat dibatalkan.');

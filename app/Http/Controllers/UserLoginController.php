@@ -29,8 +29,9 @@ class UserLoginController extends Controller
         $tanggal_main = $request->input('tanggal_main', now()->toDateString());
 
         $jadwal = Jadwal::with(['bayar' => function ($query) use ($tanggal_main) {
-            $query->where('status', 'Lunas')
-                ->whereDate('tanggal_main', $tanggal_main);
+            $query->whereNotNull('bayar')
+                  ->whereDate('tanggal_main', $tanggal_main)
+                  ->where('status', '!=', 'dibatalkan');
         }])->get();
 
         return view('user.paket', compact('jadwal', 'tanggal_main'));
