@@ -110,7 +110,22 @@
 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: green;
+    color: rgba(87, 8, 166, 0.861);
+}
+
+.tombol{
+    background-color: #9aa2be;
+    color: #F5F8F2;
+    font-size: 1.4rem;
+    outline: none;
+    border-radius: 40px;
+    border: 6px solid #b6c1b3;
+}
+.tombol:hover{
+    background: #373a43;
+    border: 6px solid #FFFFFF;
+    color: white;
+    font-size: 1.4rem;
 }
 
 .navbar .dropdown-toggle::after {
@@ -199,7 +214,7 @@
 }
 
 .page-header {
-    background:url(../img/1.jpg) center center no-repeat;
+    background:url(../img/bg12.jpg) center center no-repeat;
     background-size: cover;
 }
 
@@ -411,8 +426,8 @@
 .contact .btn-square {
     width: 100px;
     height: 100px;
-    border: 20px solid var(--light);
-    background: var(--primary);
+    border: 20px solid #9aa2be;
+    background: #0b185e;
     border-radius: 50px;
 }
 
@@ -466,7 +481,7 @@
 
 /*** Footer ***/
 .footer {
-    color: #B0B9AE;
+    color: #b6c1b3;
     top : 0px;
 }
 

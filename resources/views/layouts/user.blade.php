@@ -47,7 +47,7 @@
     <!-- Navbar Start -->
     <div class="container-fluid bg-white sticky-top">
         <div class="container">
-            <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
+            <nav class="navbar navbar-expand-lg bg-white py-2 py-lg-0">
                 <a href="{{ route('halaman.index') }}" class="navbar-brand">
                     <img class="img-fluid" src="{{ asset('masuk/futsal.png') }}" alt="Logo">
                 </a>
@@ -364,11 +364,11 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Alamat</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Jl. Setia Budi Ps. II, Tj. Sari, Kec. Medan Selayang, Kota Medan, Sumatera Utara 20132
+                    <h4 class="text-white mb-4">Alamat</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-white me-3"></i>Jl. Setia Budi Ps. II, Tj. Sari, Kec. Medan Selayang, Kota Medan, Sumatera Utara 20132
                     </p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-primary me-3"></i>+62 821-3499-7287</p>
-                    <p class="mb-2"><i class="bi bi-instagram text-primary me-3"></i>@awsoccerpark</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-white me-3"></i>+62 821-3499-7287</p>
+                    <p class="mb-2"><i class="bi bi-instagram text-white me-3"></i>@awsoccerpark</p>
                     <div class="d-flex pt-3">
                         <a class="btn btn-square btn-primary rounded-circle me-2" href=""><i
                                 class="fab fa-instagram"></i></a>
@@ -379,18 +379,18 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Link</h4>
+                    <h4 class="text-white mb-4">Link</h4>
                     <a class="btn btn-link" href="{{ route('halaman.index') }}">Home</a>
                     <a class="btn btn-link" href="{{ route('halaman.about') }}">About</a>
                     <a class="btn btn-link" href="{{ route('halaman.paket') }}">Paket</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Jam Buka</h4>
+                    <h4 class="text-white mb-4">Jam Buka</h4>
                     <p class="mb-1">Setiap hari</p>
-                    <h6 class="text-light">06:00 wib - 23:00 pm</h6>
+                    <h6 class="text-light">06:00 wib - 24:00 pm</h6>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-primary mb-4">Hubungi Kami</h4>
+                    <h4 class="text-white mb-4">Hubungi Kami</h4>
                     <p>Jika ada pertanyaan lainnya hubungi kami</p>
                 </div>
             </div>
@@ -404,7 +404,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="fw-medium" href="#">Aw Soccer park</a>, All Right Reserved.
+                    &copy; <a style="color: white" class="fw-medium" href="#">Aw Soccer park</a>, All Right Reserved.
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-sm-8">
                         <h5>Lapangan Nyaman dan Menyenangkan Bagi Pemain</h5>
-                        <p class="mb-0">Bagi para pecinta sepak bola, bermain sepak bola merupakan kewajiban yang tidak boleh dilewatkan. Menyukai sepak bola tanpa memainkannya serasa ada yang kurang. Namun, datang pula masalah dari minimnya lapangan mini soccer yang tersedia di kota Medan.
+                        <p class="mb-0" style="text-align: justify;">Bagi para pecinta sepak bola, bermain sepak bola merupakan kewajiban yang tidak boleh dilewatkan. Menyukai sepak bola tanpa memainkannya serasa ada yang kurang. Namun, datang pula masalah dari minimnya lapangan mini soccer yang tersedia di kota Medan.
                             AW Soccer Park hadir sebagai jawaban para pecinta bola untuk memfasilitasi para penikmat sepak bola. AW Soccer Park merupakan lapangan sepak bola mini yang berada di Jalan Setia Budi Pasar II Kota Medan. Dengan lokasi yang strategis, AW Soccer Park berada di tengah-tengah kota Medan dan mudah dijangkau.
                             Sobat dapat menikmati lapangan rumput dengan kualitas modern yang sangat nyaman. Tidak hanya itu, AW Soccer Park juga menyediakan 1 set rompi yang terdiri dari 8 buah selama permainan berlangsung. Jam operasional AW Soccer Park sendiri mulai dari pukul 06.00-24.00 WIB.
                             Dari segi harga sendiri, AW Soccer menawarkan versi harga yang berbeda sesuai jam dan hari operasionalnya. Harga yang ditawarkan berlaku untuk waktu 1×60 menit permainan dan buka harga mulai dari Rp100.000-Rp350.000.
@@ -45,19 +45,25 @@
             <h1 class="display-6">Jika Ada Pertanyaan Silahkan Hubungi Kami</h1>
         </div>
         <div class="row g-5 mb-5">
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.3s">
+            <div class="col-md-3 text-center wow fadeInUp" data-wow-delay="0.3s">
                 <div class="btn-square mx-auto mb-3">
                     <i class="bi bi-instagram fa-2x text-white"></i>
                 </div>
                 <p class="mb-2">Aw soccer Park</p>
             </div>
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.4s">
+            <div class="col-md-3 text-center wow fadeInUp" data-wow-delay="0.4s">
+                <div class="btn-square mx-auto mb-3">
+                    <i class="fa fa-phone-alt fa-2x text-white"></i>
+                </div>
+                <p class="mb-0">+6282134997287</p>
+            </div>
+            <div class="col-md-3 text-center wow fadeInUp" data-wow-delay="0.4s">
                 <div class="btn-square mx-auto mb-3">
                     <i class="bi bi-whatsapp fa-2x text-white"></i>
                 </div>
                 <p class="mb-0">+6282134997287</p>
             </div>
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.5s">
+            <div class="col-md-3 text-center wow fadeInUp" data-wow-delay="0.5s">
                 <div class="btn-square mx-auto mb-3">
                     <i class="fa fa-map-marker-alt fa-2x text-white"></i>
                 </div>

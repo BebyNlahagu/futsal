@@ -6,7 +6,7 @@
         <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('admin/img/1.jpg') }}" alt="Image">
+                    <img class="w-100" src="{{ asset('admin/img/bg2.jpg') }}" style="height: 30rem;" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
@@ -15,7 +15,7 @@
                                             Soccer Park</strong></p>
                                     <h1 class="display-1 text-white mb-4 animated zoomIn">Lihat dan Pilih Paket</h1>
                                     <a href="{{ route('user.paket') }}"
-                                        class="btn btn-light rounded-pill py-3 px-5 animated zoomIn">Lihat Paket</a>
+                                        class="btn tombol py-3 px-5 animated zoomIn">Lihat Paket</a>
                                 </div>
                             </div>
                         </div>
