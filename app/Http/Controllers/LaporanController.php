@@ -52,6 +52,7 @@ class LaporanController extends Controller
             $query->whereDate('tanggal_main', $request->hari);
         }
 
+        $query->where('status', 'lunas');
         $bayar = $query->get();
 
         $pdf = PDF::loadView('admin.laporan-pdf', compact('bayar','user'));

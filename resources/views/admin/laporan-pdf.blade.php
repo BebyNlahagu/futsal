@@ -120,6 +120,7 @@
                     <td class="text-center">{{ $no++ }}</td>
                     <td>{{ $t->user->name }}</td>
                     <td>{{ $t->user->no_hp }}</td>
+                    <td>{{ $t->user->alamat }}</td>
                     <td>{{ $t->tanggal_main }}</td>
                     <td class="text-right">Rp.{{ number_format($t->total, 0, ',', '.') }},-</td>
                 </tr>
