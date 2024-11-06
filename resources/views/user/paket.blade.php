@@ -47,7 +47,7 @@
                                         <td>{{ $j->harga_hari_pekan }}</td>
                                         <td>
                                             @if($j->bayar->isNotEmpty())
-                                                <span class="badge bg-success">Sudah Di Booking</span>
+                                                <span class="badge bg-success">Terboking</span>
                                             @else
                                                 <span class="badge bg-danger">Tersedia</span>
                                             @endif
