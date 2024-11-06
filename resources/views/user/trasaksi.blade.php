@@ -83,20 +83,44 @@
                                                             </td>
                                                             <td>
                                                                 @if ($bayar->status == 'dibatalkan')
-                                                                    <span class="text-danger">Booking telah
-                                                                        dibatalkan</span>
+                                                                    <span class="text-danger">Booking telah dibatalkan</span>
                                                                 @elseif ($bayar->status !== 'lunas')
-                                                                    <span class="text-warning">Menunggu konfirmasi
-                                                                        kasir</span>
-                                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#lunasiModal{{ $bayar->id }}">
+                                                                    <span class="text-warning">Menunggu konfirmasi kasir</span>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#lunasiModal{{ $bayar->id }}">
                                                                         Lunasi
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmBatal({{ $bayar->id }})">
+                                                                        Batal
                                                                     </button>
                                                                 @else
                                                                     <span class="text-success">Lunas</span>
                                                                 @endif
                                                             </td>
+
+                                                            <form id="batalForm{{ $bayar->id }}" action="{{ route('booking.batal', $bayar->id) }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                            </form>
+
+                                                            <script>
+                                                                function confirmBatal(id) {
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: "Booking ini akan dibatalkan!",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        cancelButtonColor: '#d33',
+                                                                        confirmButtonText: 'Ya, batalkan!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            document.getElementById('batalForm' + id).submit();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            </script>
+
                                                         </tr>
                                                     @endif
                                                 @endforeach

@@ -8,7 +8,14 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    public function index(Request $request)
+    public function index()
+    {
+        $bayar = Bayar::where('status', 'lunas')->get();
+
+        return view('admin.laporan',compact('bayar'));
+    }
+
+    public function filter(Request $request)
     {
         $query = Bayar::query();
 

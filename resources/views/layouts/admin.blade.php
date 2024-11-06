@@ -39,8 +39,8 @@
                     <span>Transaksi</span>
                 </a>
             </li>
-            <li class="nav-item {{ \Route::is('admin.laporan') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.laporan') }}">
+            <li class="nav-item {{ \Route::is('index.laporan') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('index.laporan') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Laporan</span>
                 </a>

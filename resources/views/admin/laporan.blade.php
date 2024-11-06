@@ -5,7 +5,7 @@
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">@yield('title')</h6>
-                    <form action="{{ route('admin.laporan') }}" method="GET" class="d-flex">
+                    <form action="{{ route('index.laporan') }}" method="GET" class="d-flex">
                         <select name="bulan" class="form-control mr-2">
                             <option value="">Pilih Bulan</option>
                             @for ($i = 1; $i <= 12; $i++)
@@ -31,6 +31,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>User</th>
+                                <th>No Hp</th>
                                 <th>Tanggal Main</th>
                                 <th>Harga Total</th>
                             </tr>
@@ -41,6 +42,7 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $t->user->name }}</td>
+                                    <td>{{ $t->user->no_hp }}</td>
                                     <td>{{ $t->tanggal_main }}</td>
                                     <td>Rp.{{ number_format($t->total, 0, ',', '.') }},-</td>
                                 </tr>

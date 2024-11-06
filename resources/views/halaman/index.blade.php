@@ -7,7 +7,7 @@
         <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('admin/img/bg2.jpg') }}" style="height: 30rem" alt="Image">
+                    <img class="w-100" src="{{ asset('admin/img/1.jpg') }}" style="height: 30rem" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">

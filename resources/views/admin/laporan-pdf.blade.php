@@ -12,13 +12,24 @@
         .header {
             text-align: center;
             margin-bottom: 20px;
+            position: relative;
         }
-        .header h2 {
+        .logo {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 80px;
+            background-image: url(../masuk/futsal.png) !important;
+        }
+        .kop-surat {
+            text-align: center;
+        }
+        .kop-surat h2 {
             margin: 0;
             font-size: 24px;
             color: #007bff;
         }
-        .header p {
+        .kop-surat p {
             margin: 0;
             font-size: 14px;
             color: #555;
@@ -48,9 +59,23 @@
         .text-right {
             text-align: right;
         }
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+            padding-right: 20px;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="kop-surat">
+            <h2>Aw Soccer Park</h2>
+            <p>Alamat: Jl. Setia Budi No. 123, Jakarta, Indonesia | Telp: (021) 123-4567</p>
+        </div>
+    </div>
+
+    <hr style="height: 2px solid black">
+
     <div class="header">
         <h2>Laporan Transaksi</h2>
         <p>
@@ -76,6 +101,7 @@
             <tr>
                 <th>No</th>
                 <th>User</th>
+                <th>No Hp</th>
                 <th>Tanggal Main</th>
                 <th>Harga Total</th>
             </tr>
@@ -92,15 +118,23 @@
                 <tr>
                     <td class="text-center">{{ $no++ }}</td>
                     <td>{{ $t->user->name }}</td>
+                    <td>{{ $t->user->no_hp }}</td>
                     <td>{{ $t->tanggal_main }}</td>
                     <td class="text-right">Rp.{{ number_format($t->total, 0, ',', '.') }},-</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="3" class="text-center">Jumlah Total</td>
-                <td class="text-right bold">Rp.{{ number_format($totalHarga, 0, ',', '.') }},-</td>
+                <td colspan="4" class="text-center">Jumlah Total</td>
+                <td class="text-right" style="font-weight: 900;">Rp.{{ number_format($totalHarga, 0, ',', '.') }},-</td>
             </tr>
         </tbody>
     </table>
+
+    <div class="signature">
+        <p style="padding-right:6rem;">Jakarta, {{ date('d-m-Y') }}</p>
+        <p style="padding-right: 5.5rem;">Penanggung Jawab,</p>
+        <br><br>
+        <p style="padding-right: 4rem"><u>(Nama Penanggung Jawab)</u></p>
+    </div>
 </body>
 </html>

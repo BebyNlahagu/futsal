@@ -44,7 +44,8 @@ Auth::routes();
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
     Route::get('/admin/PDF',[PdfController::class,'pdf'])->name('admin.pdf');
-    Route::get('/admin/laporan', [LaporanController::class,'index'])->name('admin.laporan');
+    Route::get('/admin/laporan', [LaporanController::class,'filter'])->name('admin.laporan');
+    Route::get('/admin/laporan', [LaporanController::class,'index'])->name('index.laporan');
     Route::get('/admin/laporan-pdf', [LaporanController::class,'pdf'])->name('admin.laporan-pdf');
 
     Route::resource('/admin/lapangan',LapanganController::class)->names([
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 Route::middleware(['auth', 'role:0'])->group(function () {
     Route::get('/user/index', [HomeController::class, 'index'])->name('user.index');
+
+    Route::patch('/user/transaksi/{id}/batal', [BayarController::class, 'batal'])->name('booking.batal');
 
     Route::get('/user/index',[UserLoginController::class,'index'])->name('user.index');
     Route::get('/user/about',[UserLoginController::class,'about'])->name('user.about');
