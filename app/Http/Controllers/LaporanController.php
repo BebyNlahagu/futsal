@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bayar;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
@@ -36,6 +38,8 @@ class LaporanController extends Controller
 
     public function pdf(Request $request)
     {
+        $user = User::where('role', 1)->first();
+
         $query = Bayar::query();
 
         if ($request->filled('bulan')) {
@@ -50,7 +54,7 @@ class LaporanController extends Controller
 
         $bayar = $query->get();
 
-        $pdf = PDF::loadView('admin.laporan-pdf', compact('bayar'));
+        $pdf = PDF::loadView('admin.laporan-pdf', compact('bayar','user'));
         return $pdf->download('laporan_transaksi.pdf');
     }
 }

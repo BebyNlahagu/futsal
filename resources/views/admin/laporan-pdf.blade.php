@@ -16,22 +16,22 @@
         }
         .logo {
             position: absolute;
-            left: 0;
-            top: 10px;
+            left: 50px;
+            top: -5px;
             width: 80px;
-            background-image: url(../masuk/futsal.png) !important;
         }
         .kop-surat {
             text-align: center;
         }
         .kop-surat h2 {
             margin: 0;
-            font-size: 24px;
-            color: #007bff;
+            font-size: 3rem;
+            color: #08b430;
+            font-weight: bold
         }
         .kop-surat p {
             margin: 0;
-            font-size: 14px;
+            font-size: 1rem;
             color: #555;
         }
         table {
@@ -44,7 +44,7 @@
             padding: 8px;
         }
         th {
-            background-color: #f8f9fc;
+            background-color: #08b430;
             text-align: left;
             font-weight: bold;
             color: #333;
@@ -68,32 +68,33 @@
 </head>
 <body>
     <div class="header">
-        <div class="kop-surat">
+        <div class="logo">
+            <img src="{{ public_path('masuk/futsal.png') }}" alt="Logo" style="width: 150%;">
+        </div>
+        <div class="kop-surat" style="padding-left: 5rem;">
             <h2>Aw Soccer Park</h2>
-            <p>Alamat: Jl. Setia Budi No. 123, Jakarta, Indonesia | Telp: (021) 123-4567</p>
+            <p>Alamat: Jl. Setia Budi Ps. II, Tj. Sari, Kec. Medan Selayang, <br>Kota Medan, Sumatera Utara 20132 <br>HP/WA: +6282134997287 </p>
         </div>
     </div>
 
     <hr style="height: 2px solid black">
 
     <div class="header">
-        <h2>Laporan Transaksi</h2>
-        <p>
-            @if(request()->has('bulan') || request()->has('tahun') || request()->has('hari'))
-                Filter:
-                @if(request()->has('bulan'))
-                    Bulan: {{ date("F", mktime(0, 0, 0, request('bulan'), 1)) }}
-                @endif
-                @if(request()->has('tahun'))
-                    Tahun: {{ request('tahun') }}
-                @endif
-                @if(request()->has('hari'))
-                    Hari: {{ request('hari') }}
-                @endif
-            @else
-                Semua Data
+        <h2 style="font-weight: bold;">Laporan Transaksi</h2>
+        @if(request()->has('bulan') || request()->has('tahun') || request()->has('hari'))
+            Filter:
+            @if(request()->has('bulan'))
+                Bulan: {{ date("F", mktime(0, 0, 0, request('bulan'), 1)) }}
             @endif
-        </p>
+            @if(request()->has('tahun'))
+                Tahun: {{ request('tahun') }}
+            @endif
+            @if(request()->has('hari'))
+                Hari: {{ request('hari') }}
+            @endif
+        @else
+            Semua Data
+        @endif
     </div>
 
     <table>
@@ -125,16 +126,16 @@
             @endforeach
             <tr>
                 <td colspan="4" class="text-center">Jumlah Total</td>
-                <td class="text-right" style="font-weight: 900;">Rp.{{ number_format($totalHarga, 0, ',', '.') }},-</td>
+                <td class="text-right" style="font-weight: 900;">Rp. {{ number_format($totalHarga, 0, ',', '.') }} ,-</td>
             </tr>
         </tbody>
     </table>
 
     <div class="signature">
-        <p style="padding-right:6rem;">Jakarta, {{ date('d-m-Y') }}</p>
+        <p style="padding-right:6rem;">Medan, {{ date('d-m-Y') }}</p>
         <p style="padding-right: 5.5rem;">Penanggung Jawab,</p>
         <br><br>
-        <p style="padding-right: 4rem"><u>(Nama Penanggung Jawab)</u></p>
+        <p style="padding-right: 9rem; font-weight:bold;"><u>{{ $user->name }}</u></p>
     </div>
 </body>
 </html>
