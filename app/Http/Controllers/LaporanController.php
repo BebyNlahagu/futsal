@@ -10,14 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
-    public function index()
-    {
-        $bayar = Bayar::where('status', 'lunas')->get();
 
-        return view('admin.laporan',compact('bayar'));
-    }
-
-    public function filter(Request $request)
+    public function index(Request $request)
     {
         $query = Bayar::query();
 
@@ -30,6 +24,8 @@ class LaporanController extends Controller
         if ($request->filled('hari')) {
             $query->whereDate('tanggal_main', $request->hari);
         }
+
+        $query->where('status', 'lunas');
 
         $bayar = $query->get();
 

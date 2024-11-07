@@ -44,7 +44,6 @@ Auth::routes();
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/admin/index', [HomeController::class, 'index'])->name('admin.index');
     Route::get('/admin/PDF',[PdfController::class,'pdf'])->name('admin.pdf');
-    Route::get('/admin/laporan', [LaporanController::class,'filter'])->name('admin.laporan');
     Route::get('/admin/laporan', [LaporanController::class,'index'])->name('index.laporan');
     Route::get('/admin/laporan-pdf', [LaporanController::class,'pdf'])->name('admin.laporan-pdf');
 
