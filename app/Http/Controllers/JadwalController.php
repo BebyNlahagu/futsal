@@ -18,8 +18,10 @@ class JadwalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jam' => 'required|array',
-            'jam.*' => 'required|string',
+            'star_time' => 'required|time',
+            'Star_tme.*' => 'required|time',
+            'end_time' => 'required|time',
+            'end_tme.*' => 'required|time',
             'harga_hari_biasa' => 'required|array',
             'harga_hari_biasa.*' => 'required|integer',
             'harga_hari_pekan' => 'required|array',

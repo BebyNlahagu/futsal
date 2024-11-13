@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-            $table->string('jam');
+            $table->time('star_time');
+            $table->time('end_time');
             $table->integer('harga_hari_biasa');
             $table->integer('harga_hari_pekan');
             $table->foreignId('lapangan_id')->constrained()->onDelete('cascade');

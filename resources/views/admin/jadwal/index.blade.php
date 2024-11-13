@@ -48,7 +48,7 @@
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $l->lapangan->nama_lapangan ?? 'N/A' }}</td>
-                                        <td>{{ $l->jam }}</td>
+                                        <td>{{ $l->star_time }} - {{ $l->end_time }}</td>
                                         <td>{{ $l->harga_hari_biasa }}</td>
                                         <td>{{ $l->harga_hari_pekan }}</td>
                                         <td>
@@ -124,10 +124,15 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="jam" class="form-label">Jam</label>
-                                    <input type="text" name="jam[]" class="form-control"
-                                        placeholder="Contoh: 06:00 - 07:00" required>
+                                    <label for="start_time" class="form-label">Waktu Mulai</label>
+                                    <input type="time" name="start_time[]" class="form-control" required>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label for="end_time" class="form-label">Waktu Selesai</label>
+                                    <input type="time" name="end_time[]" class="form-control" required>
+                                </div>
+                                
                                 <div class="col-md-3">
                                     <label for="harga_hari_biasa" class="form-label">Harga Hari Biasa</label>
                                     <input type="number" name="harga_hari_biasa[]" class="form-control"
