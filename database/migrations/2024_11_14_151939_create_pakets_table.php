@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jadwals', function (Blueprint $table) {
+        Schema::create('pakets', function (Blueprint $table) {
             $table->id();
-            $table->time('star_time');
-            $table->integer('harga_hari_biasa');
-            $table->integer('harga_hari_pekan');
-            $table->foreignId('lapangan_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('tersedia');
+            $table->string('paket');
+            $table->integer('durasi');
+            $table->decimal('harga');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadwals');
+        Schema::dropIfExists('pakets');
     }
 };

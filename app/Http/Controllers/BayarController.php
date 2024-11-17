@@ -16,7 +16,6 @@ class BayarController extends Controller
         $jadwals = Jadwal::all();
         $users = User::where('role', 0)->get();
         $bayars = Bayar::with(['jadwal', 'user'])->get();
-
         $tanggalMain = request('tanggal_main');
         $durasi = request('durasi', 1);
         $jadwalTerpesan = [];
@@ -25,17 +24,15 @@ class BayarController extends Controller
             $bookedSlots = Bayar::whereDate('tanggal_main', $tanggalMain)
                 ->pluck('jadwal_id')
                 ->toArray();
-
             foreach ($bookedSlots as $jadwalId) {
                 $jadwal = Jadwal::find($jadwalId);
                 if ($jadwal) {
-                    $startHour = new \DateTime($jadwal->jam);
-
+                    $startHour = new \DateTime($jadwal->star_time);
                     for ($i = 0; $i < $durasi; $i++) {
                         $newHour = clone $startHour;
                         $newHour->modify("+{$i} hour");
 
-                        $conflictJadwal = Jadwal::where('jam', $newHour->format('H:i'))->first();
+                        $conflictJadwal = Jadwal::where('star_time', $newHour->format('H:i'))->first();
                         if ($conflictJadwal && !in_array($conflictJadwal->id, $jadwalTerpesan)) {
                             $isConflict = false;
                             for ($j = 0; $j < $durasi; $j++) {
@@ -58,9 +55,9 @@ class BayarController extends Controller
                 }
             }
         }
-
         return view('kasir.transaksi.index', compact('bayars', 'jadwals', 'users', 'jadwalTerpesan'));
     }
+
 
     public function store(Request $request)
     {
@@ -73,15 +70,27 @@ class BayarController extends Controller
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif'
         ]);
 
-        $existingBooking = Bayar::where('jadwal_id', $request->jadwal_id)
-            ->whereDate('tanggal_main', $request->tanggal_main)
-            ->first();
+        // Ambil jadwal awal
+        $jadwal = Jadwal::findOrFail($request->jadwal_id);
+        $tanggal_main = $request->tanggal_main;
+        $startTime = \Carbon\Carbon::parse($jadwal->star_time);
 
-        if ($existingBooking) {
-            Alert::error('Jadwal Sudah Dipesan', 'Pilih Jadwal Lain');
-            return redirect()->back();
+        // Cek setiap jam dalam durasi yang dipilih apakah sudah dibooking
+        for ($i = 0; $i < $request->durasi; $i++) {
+            $currentStartTime = $startTime->copy()->addHours($i);
+            $existingBooking = Bayar::where('jadwal_id', $jadwal->id)
+                ->whereDate('tanggal_main', $tanggal_main)
+                ->where('status', '!=', 'dibatalkan')
+                ->whereTime('start_time', '=', $currentStartTime->format('H:i:s'))
+                ->first();
+
+            if ($existingBooking) {
+                Alert::error('Jadwal Sudah Dipesan', 'Pilih Jadwal Lain');
+                return redirect()->back();
+            }
         }
 
+        // Upload file bukti pembayaran jika ada
         if ($request->hasFile('bukti_pembayaran')) {
             $file = $request->file('bukti_pembayaran');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -90,22 +99,22 @@ class BayarController extends Controller
             $filePath = null;
         }
 
-        $jadwal = Jadwal::findOrFail($request->jadwal_id);
-
-        $tanggal = new \Carbon\Carbon($request->tanggal_main);
+        // Tentukan harga berdasarkan hari biasa atau akhir pekan
+        $tanggal = new \Carbon\Carbon($tanggal_main);
         $isAkhirPekan = $tanggal->isWeekend();
         $harga = $isAkhirPekan ? $jadwal->harga_hari_pekan : $jadwal->harga_hari_biasa;
 
         $total = $harga * $request->durasi;
-
         $bayar = $request->bayar;
         $sisa = $total - $bayar;
         $status = $sisa <= 0 ? 'Lunas' : 'Belum Lunas';
 
+        // Simpan data pembayaran
         $bayarData = Bayar::create([
             'jadwal_id' => $request->jadwal_id,
             'user_id' => $request->user_id,
-            'tanggal_main' => $request->tanggal_main,
+            'tanggal_main' => $tanggal_main,
+            'start_time' => $jadwal->star_time,
             'durasi' => $request->durasi,
             'total' => $total,
             'dp' => $total * 0.25,
@@ -115,11 +124,20 @@ class BayarController extends Controller
             'bukti_pembayaran' => $filePath
         ]);
 
-        $jadwal->update(['status' => 'sudah di booking']);
+        for ($i = 0; $i < $request->durasi; $i++) {
+            $currentStartTime = $startTime->copy()->addHours($i);
+            Jadwal::where('star_time', $currentStartTime->format('H:i:s'))
+                ->whereDate('tanggal_main', $tanggal_main)
+                ->update(['status' => 'Terboking']);
+        }
 
         Alert::success('Success', 'Pembayaran berhasil disimpan!');
         return redirect()->back();
     }
+
+
+
+
 
     public function lunasi($id)
     {

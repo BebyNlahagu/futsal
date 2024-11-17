@@ -49,6 +49,16 @@
             <div class="sidebar-heading">
                 Features
             </div>
+            <li class="nav-item {{ \Route::is('paket.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('paket.index') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Paket Lapangan</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Features
+            </div>
             <li class="nav-item {{ \Route::is('admin.lapangan.index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.lapangan.index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>

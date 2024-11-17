@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\ProfileKasirController;
@@ -60,6 +61,8 @@ Route::middleware(['auth', 'role:1'])->group(function () {
     Route::resource('/admin/casir',KasirKontroller::class);
     Route::resource('/admin/jadwal',JadwalController::class);
     Route::resource('/admin/profile',ProfileAdminController::class);
+
+    Route::resource('/admin/paket',PaketController::class);
 });
 
 // Rute untuk kasir

@@ -57,8 +57,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                    <a href="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                                    <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                            @endforeach

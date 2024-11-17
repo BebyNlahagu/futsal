@@ -47,7 +47,7 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $bayar->user->name }}</td>
-                                    <td>{{ $bayar->jadwal->jam }}</td>
+                                    <td>{{ $bayar->jadwal->star_time }} - {{ $bayar->jadwal->end_time }}</td>
                                     <td>{{ $bayar->tanggal_main }}</td>
                                     <td>{{ $bayar->durasi }} Jam</td>
                                     <td>{{ number_format($bayar->total, 0, ',', '.') }}</td>
@@ -142,11 +142,11 @@
                             <select name="jadwal_id" id="jadwal_id" class="form-control" required>
                                 <option value="">Pilih Jadwal</option>
                                 @foreach ($jadwals as $jadwal)
-                                    <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->jam }}"
+                                    <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->star_time }} - {{ $jadwal->end_time }}"
                                         data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
                                         data-harga-pekan="{{ $jadwal->harga_hari_pekan }}"
                                         {{ in_array($jadwal->id, $jadwalTerpesan) ? 'disabled' : '' }}>
-                                        {{ $jadwal->jam }}
+                                        {{ $jadwal->star_time }} - {{ $jadwal->end_time }}
                                     </option>
                                 @endforeach
                             </select>

@@ -50,12 +50,12 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.lapangan.edit', ['lapangan' => $l->id]) }}" class="btn btn-success" data-toggle="modal"data-target="#edit{{ $l->id }}"><i class='fa fa-edit'></i></a>
+                                        <a href="{{ route('admin.lapangan.edit', ['lapangan' => $l->id]) }}" class="btn btn-success btn-sm" data-toggle="modal"data-target="#edit{{ $l->id }}"><i class='fa fa-edit'></i></a>
 
                                         <form action="{{ route('admin.lapangan.destroy', $l->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>

@@ -29,10 +29,40 @@ class UserLoginController extends Controller
         $tanggal_main = $request->input('tanggal_main', now()->toDateString());
 
         $jadwal = Jadwal::with(['bayar' => function ($query) use ($tanggal_main) {
-            $query->whereNotNull('bayar')
-                  ->whereDate('tanggal_main', $tanggal_main)
-                  ->where('status', '!=', 'dibatalkan');
+            $query->whereDate('tanggal_main', $tanggal_main)
+                ->where('status', '!=', 'dibatalkan'); // Ambil booking yang tidak dibatalkan
         }])->get();
+
+        foreach ($jadwal as $j) {
+            $startTime = \Carbon\Carbon::parse($j->star_time);
+            $endTime = \Carbon\Carbon::parse($j->end_time);
+            $bookings = Bayar::where('jadwal_id', $j->id)
+                ->whereDate('tanggal_main', '=', $tanggal_main)
+                ->get();
+
+            $isBooked = false;
+
+            foreach ($bookings as $booking) {
+                if ($booking->status === 'dibatalkan') {
+                    continue; // Lewati booking yang sudah dibatalkan
+                }
+
+                $bookingStartTime = \Carbon\Carbon::parse($booking->tanggal_main . ' ' . $booking->jadwal->star_time);
+                $bookingEndTime = $bookingStartTime->copy()->addHours($booking->durasi);
+
+                if (($startTime->between($bookingStartTime, $bookingEndTime) ||
+                        $endTime->between($bookingStartTime, $bookingEndTime)) ||
+                    ($bookingStartTime->between($startTime, $endTime) ||
+                        $bookingEndTime->between($startTime, $endTime))
+                ) {
+                    $isBooked = true;
+                    break; // Jika ditemukan tumpang tindih, jadwal dianggap sudah terbooking
+                }
+            }
+
+            // Jika tidak ada booking yang aktif atau ada booking yang dibatalkan, status menjadi 'Tersedia'
+            $j->setAttribute('status', $isBooked ? 'Terboking' : 'Tersedia');
+        }
 
         return view('user.paket', compact('jadwal', 'tanggal_main'));
     }

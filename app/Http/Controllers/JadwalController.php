@@ -18,19 +18,20 @@ class JadwalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'star_time' => 'required|time',
-            'Star_tme.*' => 'required|time',
-            'end_time' => 'required|time',
-            'end_tme.*' => 'required|time',
+            'star_time' => 'required|array',
+            'star_time.*' => 'required|date_format:H:i',
+            'end_time' => 'required|array',
+            'end_time.*' => 'required|date_format:H:i',
             'harga_hari_biasa' => 'required|array',
             'harga_hari_biasa.*' => 'required|integer',
             'harga_hari_pekan' => 'required|array',
             'harga_hari_pekan.*' => 'required|integer',
         ]);
 
-        foreach ($request->jam as $index => $jam) {
+        foreach ($request->star_time as $index => $star_time) {
             Jadwal::create([
-                'jam' => $jam,
+                'star_time' => $star_time,
+                'end_time' => $request->end_time[$index],
                 'harga_hari_biasa' => $request->harga_hari_biasa[$index],
                 'harga_hari_pekan' => $request->harga_hari_pekan[$index],
                 'lapangan_id' => $request->lapangan_id,

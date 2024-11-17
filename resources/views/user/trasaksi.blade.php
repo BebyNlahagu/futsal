@@ -77,8 +77,7 @@
                                                             <td>{{ $bayar->status }}</td>
                                                             <td>
                                                                 @if ($bayar->bukti_pembayaran)
-                                                                    <img src="{{ Storage::url($bayar->bukti_pembayaran) }}"
-                                                                        alt="" style="width: 50px" height="auto">
+                                                                    <img src="{{ Storage::url($bayar->bukti_pembayaran) }}" alt="" style="width: 50px" height="auto">
                                                                 @endif
                                                             </td>
                                                             <td>
@@ -86,12 +85,8 @@
                                                                     <span class="text-danger">Booking telah dibatalkan</span>
                                                                 @elseif ($bayar->status !== 'lunas')
                                                                     <span class="text-warning">Menunggu konfirmasi kasir</span>
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#lunasiModal{{ $bayar->id }}">
-                                                                        Lunasi
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmBatal({{ $bayar->id }})">
-                                                                        Batal
-                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#lunasiModal{{ $bayar->id }}">Lunasi</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmBatal({{ $bayar->id }})">Batal</button>
                                                                 @else
                                                                     <span class="text-success">Lunas</span>
                                                                 @endif
@@ -135,8 +130,7 @@
                         </div>
 
                         <!-- Modal untuk tambah transaksi -->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -157,20 +151,16 @@
                                             @endif
                                         </div>
 
-                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm"
-                                            enctype="multipart/form-data">
+                                        <form action="{{ route('user.transaksi') }}" method="POST" id="transaksiForm" enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="user_id" class="form-label">User</label>
-                                                <input type="hidden" name="user_id" id="user_id"
-                                                    value="{{ Auth::user()->id }}">
-                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}"
-                                                    readonly>
+                                                <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+                                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="tanggal_main" class="form-label">Tanggal Main</label>
-                                                <input type="date" name="tanggal_main" id="tanggal_main"
-                                                    class="form-control" required>
+                                                <input type="date" name="tanggal_main" id="tanggal_main" class="form-control" required>
                                             </div>
 
                                             <div class="mb-3">
@@ -178,11 +168,11 @@
                                                 <select name="jadwal_id" id="jadwal_id" class="form-control" required>
                                                     <option value="">Pilih Jadwal</option>
                                                     @foreach ($jadwals as $jadwal)
-                                                        <option value="{{ $jadwal->id }}" data-jam="{{ $jadwal->jam }}"
+                                                        <option value="{{ $jadwal->id }}" data-jam="{{ \Carbon\Carbon::parse($jadwal->star_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($jadwal->end_time)->format('h:i A') }}"
                                                             data-harga-biasa="{{ $jadwal->harga_hari_biasa }}"
                                                             data-harga-pekan="{{ $jadwal->harga_hari_pekan }}"
                                                             {{ in_array($jadwal->id, $jadwalTerpesan) ? 'disabled' : '' }}>
-                                                            {{ $jadwal->jam }}
+                                                            {{ \Carbon\Carbon::parse($jadwal->star_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($jadwal->end_time)->format('h:i A') }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -190,43 +180,38 @@
 
                                             <div class="mb-3">
                                                 <label for="durasi" class="form-label">Durasi (Jam)</label>
-                                                <input type="number" name="durasi" id="durasi" class="form-control"
-                                                    min="1" max="4" required>
+                                                <input type="number" name="durasi" id="durasi" class="form-control" min="1" max="4" required>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="total" class="form-label">Total Harga</label>
-                                                <input type="text" name="total" id="total" class="form-control"
-                                                    readonly>
+                                                <input type="text" name="total" id="total" class="form-control" readonly>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="dp" class="form-label">Uang Muka (25%)</label>
-                                                <input type="text" name="dp" id="dp" class="form-control"
-                                                    readonly>
+                                                <input type="text" name="dp" id="dp" class="form-control" readonly>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="bayar" class="form-label">Bayar</label>
-                                                <input type="text" name="bayar" id="bayar" class="form-control"
-                                                    required>
+                                                <input type="text" name="bayar" id="bayar" class="form-control" required>
                                             </div>
 
-                                            <div class="mb-3">
-                                                <label for="no-rek" class="form-label">No. Rek</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="no-rek"
-                                                        name="no_rek" value="72108877778" readonly>
-                                                    <button class="btn btn-outline-secondary" type="button"
-                                                        onclick="copyToClipboard()">Salin</button>
+                                            <h5>Lakukan Pembayaran</h5>
+
+                                            <div class="row g-3 align-items-center mb-3">
+                                                <div class="col-auto">
+                                                    <label for="inputPassword6" class="col-form-label">Password</label>
                                                 </div>
-                                                <div class="form-text">BSI a/n Alif Syarif</div>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="bukti_pembayaran" class="form-label">Foto Bukti</label>
-                                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran"
-                                                    class="form-control">
+                                                <div class="col-auto">
+                                                    <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" value="72108877778" readonly>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span id="passwordHelpInline" class="form-text">
+                                                        BSI a/n Alif Syarif
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <script>
@@ -246,7 +231,7 @@
 
                                             <input type="hidden" name="status" id="status">
 
-                                            <div class="form-footer">
+                                            <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
                                             </div>
                                         </form>

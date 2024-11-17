@@ -15,15 +15,12 @@
         <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
             <h1 class="display-6">List Harga</h1>
         </div>
-
-        <!-- Form Filter Tanggal -->
         <form action="{{ route('user.paket') }}" method="GET" class="mb-4 text-center">
             <label for="tanggal_main" class="form-label">Pilih Tanggal:</label>
             <input type="date" id="tanggal_main" name="tanggal_main" value="{{ $tanggal_main }}" class="form-control w-auto d-inline">
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
 
-        <!-- Tampilkan tanggal yang dipilih -->
         <h4 class="text-center">Tanggal: {{ \Carbon\Carbon::parse($tanggal_main)->format('d-m-Y') }}</h4>
 
         <div class="row g-4 justify-content-center">
@@ -42,11 +39,11 @@
                             <tbody>
                                 @foreach ($jadwal as $j)
                                     <tr>
-                                        <td>{{ $j->jam }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($j->star_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($j->end_time)->format('h:i A') }}</td>
                                         <td>{{ $j->harga_hari_biasa }}</td>
                                         <td>{{ $j->harga_hari_pekan }}</td>
                                         <td>
-                                            @if($j->bayar->isNotEmpty())
+                                            @if($j->status === "Terboking")
                                                 <span class="badge bg-success">Terboking</span>
                                             @else
                                                 <span class="badge bg-danger">Tersedia</span>
