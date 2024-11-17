@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bayar;
 use App\Models\Jadwal;
+use App\Models\Paket;
 use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,9 +15,9 @@ class UserLoginController extends Controller
     {
         $rating = Rating::all();
         $users = User::where('role', 0)->get();
+        $paket = Paket::all();
 
-
-        return view('user.index', compact('rating', 'users'));
+        return view('user.index', compact('rating', 'users','paket'));
     }
 
     public function about()

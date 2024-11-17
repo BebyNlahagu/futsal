@@ -64,6 +64,8 @@
                             class="nav-item nav-link {{ \Route::is('user.paket') ? 'active' : '' }}">Paket</a>
                         <a href="{{ route('user.transaksi') }}"
                             class="nav-item nav-link {{ \Route::is('user.transaksi') ? 'active' : '' }}">Transaksi</a>
+                        <a href="{{ route('member.index') }}"
+                            class="nav-item nav-link {{ \Route::is('member.index') ? 'active' : '' }}">Member</a>
                         <a href="{{ route('user.data.index') }}"
                             class="nav-item nav-link {{ \Route::is('user.data.index') ? 'active' : '' }}">Profil</a>
                     </div>

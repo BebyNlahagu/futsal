@@ -94,6 +94,8 @@ Route::middleware(['auth', 'role:0'])->group(function () {
     Route::post('/user/transaksi',[BayarController::class,'store'])->name('user.transaksi');
     Route::post('/user/transaksi/{id}', [BayarController::class, 'lunasi'])->name('bayar.lunasi');
 
+    Route::get('/user/member',[MemberController::class,'index'])->name('member.index');
+    Route::post('/user/member',[MemberController::class,'store'])->name('member.store');
 
     Route::post('user/index', [RatingController::class,'store'])->name('user.rating');
 });

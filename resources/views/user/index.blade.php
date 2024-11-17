@@ -11,11 +11,9 @@
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-7 text-center">
-                                    <p class="fs-4 text-white animated zoomIn">Selamat Datang <strong class="text-white">AW
-                                            Soccer Park</strong></p>
+                                    <p class="fs-4 text-white animated zoomIn">Selamat Datang <strong class="text-white">AW Soccer Park</strong></p>
                                     <h1 class="display-1 text-white mb-4 animated zoomIn">Lihat dan Pilih Paket</h1>
-                                    <a href="{{ route('user.paket') }}"
-                                        class="btn tombol py-3 px-5 animated zoomIn">Lihat Paket</a>
+                                    <a href="{{ route('user.paket') }}" class="btn tombol py-3 px-5 animated zoomIn">Lihat Paket</a>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +88,7 @@
         <div class="container">
             <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <p class="fs-5 fw-medium fst-italic text-primary">View Lapangan</p>
-                <h1 class="display-6"></h1>
+                <h1 class="display-6">Aw Soccer Park</h1>
             </div>
             <div class="row g-4 d-flex justify-content-center">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -106,6 +104,39 @@
         </div>
     </div>
     <!-- Store End -->
+
+    <!--Paket-->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <p class="fs-5 fw-medium fst-italic text-primary">Paket</p>
+                <h1 class="display-6">Aw Soccer Park</h1>
+            </div>
+
+            @foreach ($paket as $p)
+            <div class="row g-4 d-flex justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="store-item justify-center position-relative text-center">
+                        <div class="card">
+                            <div class="card-body mb-3">
+                                <div class="p-4">
+                                    <h1>{{ $p->paket }}</h1>
+                                    <h4 class="mb-3">{{ $p->durasi }} Jam</h4>
+                                    <h4>Rp.{{ number_format($p->harga) }},-</h4>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ route('member.index') }}" class="btn btn-primary text-end">Pesan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top mb-4 mt-5"></div>
+            @endforeach
+        </div>
+    </div>
+    <!--Paket End-->
 
     <!-- Contact Start -->
     <div class="container-xxl contact py-5">
